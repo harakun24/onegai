@@ -14,7 +14,7 @@ app.use(morgan("tiny"));
 
 app.launch = function (cb) {
   const { env } = process;
-  app.listen(env.PORT || 4000, env.HOST || "127.0.0.1", function () {
+  app.listen(env.PORT || 4000, function () {
     cb(this.address());
   });
 };
