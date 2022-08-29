@@ -16,5 +16,5 @@ app.internalError = (res) => {
 };
 
 app.launch((addr) => {
-  console.log(`\n\tserver listen on ${addr.address}:${addr.port}\n`.cyan);
+  console.log(`\n\tserver listen on :${addr.port}\n`.cyan);
 });
