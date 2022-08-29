@@ -5,6 +5,17 @@ export class DefaultController extends BaseController {
     super("default");
   }
   index(res) {
-    res.send("<h1>Hello world</h1>");
+    // res.send("<h1>Hello world</h1>");
+    res.svelte("dev.svelte", {
+      globalStores: {
+        counter: 0,
+      },
+      globalProps: {
+        Hound: "Express Svelte Example",
+      },
+      props: {
+        value: "View prop",
+      },
+    });
   }
 }

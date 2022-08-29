@@ -7,7 +7,7 @@ import ModelAdapter from "../Models/index.js";
 env.config();
 
 const app = new ex();
-
+app.use("/public", ex.static("/public"));
 app.use(ex.json());
 app.use(ex.urlencoded({ extended: true }));
 app.use(morgan("tiny"));

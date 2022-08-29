@@ -1,6 +1,19 @@
 import app from "./config/config.js";
 import "colors";
+import svelte from "./config/express-svelte/lib/express-svelte.js";
+import { dir } from "./config/path.js";
 
+app.use(
+  svelte({
+    legacy: true,
+    hydratable: true,
+    viewsDirname: "./Views/",
+    bundlesDirname: "./public/dist",
+    bundlesHost: "/public/dist",
+    bundlesPattern: "[name][extname]",
+    env: "development",
+  })
+);
 app.routeHandler();
 // app.sync();
 
