@@ -2,7 +2,7 @@ import app from "./config/config.js";
 import "colors";
 
 app.routeHandler();
-app.sync();
+// app.sync();
 
 app.notFound((res) => {
   res.send("<h1>url not found</h1>");
