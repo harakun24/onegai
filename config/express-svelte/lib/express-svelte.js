@@ -1,209 +1,238 @@
-'use strict';
+"use strict";
 
-const Utils = require('./utils');
-const ServerViewFactory = require('./server-view-factory');
+const Utils = require("./utils");
+const ServerViewFactory = require("./server-view-factory");
 
-const ERROR_EXPRESS_SVELTE_LOOKUP = 'ERROR_EXPRESS_SVELTE_LOOKUP';
-const ERROR_EXPRESS_SVELTE_COMPILE = 'ERROR_EXPRESS_SVELTE_COMPILE';
-const ERROR_EXPRESS_SVELTE_RENDER = 'ERROR_EXPRESS_SVELTE_RENDER';
+const ERROR_EXPRESS_SVELTE_LOOKUP = "ERROR_EXPRESS_SVELTE_LOOKUP";
+const ERROR_EXPRESS_SVELTE_COMPILE = "ERROR_EXPRESS_SVELTE_COMPILE";
+const ERROR_EXPRESS_SVELTE_RENDER = "ERROR_EXPRESS_SVELTE_RENDER";
 
-const TEMPLATE_FILENAME = __dirname + '/data/template.html';
+const TEMPLATE_FILENAME = __dirname + "/data/template.html";
 
-const DEFAULT_VIEWS_DIRNAME = '/views';
-const DEFAULT_BUNDLES_DIRNAME = '/public/dist';
-const DEFAULT_BUNDLES_PATTERN = '[name]-[hash][extname]';
-const DEFAULT_BUNDLES_HOST = '/public/dist';
-const DEFAULT_EXTENSION = '.svelte';
+const DEFAULT_VIEWS_DIRNAME = "/views";
+const DEFAULT_BUNDLES_DIRNAME = "/public/dist";
+const DEFAULT_BUNDLES_PATTERN = "[name]-[hash][extname]";
+const DEFAULT_BUNDLES_HOST = "/public/dist";
+const DEFAULT_EXTENSION = ".svelte";
 
 const NODE_ENV = process.env.NODE_ENV;
-const NODE_ENV_DEVELOPMENT = 'development';
-const NODE_ENV_TESTING = 'testing';
+const NODE_ENV_DEVELOPMENT = "development";
+const NODE_ENV_TESTING = "testing";
 
 /**
  * @param {ExpressSvelteOptions} mainOpts
  * @return {Function}
  */
 function expressSvelte(mainOpts = {}) {
+  let viewsDirname =
+    mainOpts.viewsDirname || process.cwd() + DEFAULT_VIEWS_DIRNAME;
+  viewsDirname = Array.isArray(viewsDirname) ? viewsDirname : [viewsDirname];
 
-    let viewsDirname = mainOpts.viewsDirname || process.cwd() + DEFAULT_VIEWS_DIRNAME;
-    viewsDirname = Array.isArray(viewsDirname) ? viewsDirname : [viewsDirname];
-    console.log(viewsDirname)
+  let defaultExtension = mainOpts.defaultExtension || DEFAULT_EXTENSION;
+  defaultExtension =
+    defaultExtension[0] !== "." ? "." + defaultExtension : defaultExtension;
 
-    let defaultExtension = mainOpts.defaultExtension || DEFAULT_EXTENSION;
-    defaultExtension = defaultExtension[0] !== '.' ? '.' + defaultExtension : defaultExtension;
+  let bundlesDirnames =
+    mainOpts.bundlesDirname || process.cwd() + DEFAULT_BUNDLES_DIRNAME;
+  bundlesDirnames = Array.isArray(bundlesDirnames)
+    ? bundlesDirnames
+    : [bundlesDirnames];
+  bundlesDirnames = Utils.resolveDirnames(bundlesDirnames);
 
-    let bundlesDirnames = mainOpts.bundlesDirname || process.cwd() + DEFAULT_BUNDLES_DIRNAME;
-    bundlesDirnames = Array.isArray(bundlesDirnames) ? bundlesDirnames : [bundlesDirnames];
-    bundlesDirnames = Utils.resolveDirnames(bundlesDirnames);
+  let bundlesPattern = mainOpts.bundlesPattern || DEFAULT_BUNDLES_PATTERN;
+  let bundlesHost = mainOpts.bundlesHost || DEFAULT_BUNDLES_HOST;
 
-    let bundlesPattern = mainOpts.bundlesPattern || DEFAULT_BUNDLES_PATTERN;
-    let bundlesHost = mainOpts.bundlesHost || DEFAULT_BUNDLES_HOST;
+  // Scan bundles directories and get all js and css files synchronous
+  const bundlesRegExp = Utils.getFilenameRegExp(bundlesPattern);
+  const bundlesFilenames = bundlesDirnames.map(Utils.getFilenamesSync).flat();
 
-    // Scan bundles directories and get all js and css files synchronous
-    const bundlesRegExp = Utils.getFilenameRegExp(bundlesPattern);
-    const bundlesFilenames = bundlesDirnames.map(Utils.getFilenamesSync).flat();
+  // Build script and styles maps based on scanned bundles
+  const { scriptsMap } = Utils.getFilenamesMaps(
+    bundlesFilenames,
+    bundlesRegExp,
+    bundlesDirnames
+  );
 
-    // Build script and styles maps based on scanned bundles
-    const { scriptsMap } = Utils.getFilenamesMaps(bundlesFilenames, bundlesRegExp, bundlesDirnames);
+  // Define default values
+  const _compileOptions = {
+    env: mainOpts.env || NODE_ENV || NODE_ENV_DEVELOPMENT,
+    dev: null,
+    cache: null,
+    hydratable:
+      mainOpts.hydratable != null ? mainOpts.hydratable === true : false,
+    replace: mainOpts.replace || {},
+    preprocess: mainOpts.preprocess || [],
+    dedupe: mainOpts.dedupe || [],
+  };
 
-    // Define default values
-    const _compileOptions = {
-        env: mainOpts.env || NODE_ENV || NODE_ENV_DEVELOPMENT,
-        dev: null,
-        cache: null,
-        hydratable: mainOpts.hydratable != null ? mainOpts.hydratable === true : false,
-        replace: mainOpts.replace || {},
-        preprocess: mainOpts.preprocess || [],
-        dedupe: mainOpts.dedupe || []
-    };
+  _compileOptions.dev =
+    mainOpts.dev != null
+      ? mainOpts.dev
+      : _compileOptions.env === NODE_ENV_DEVELOPMENT ||
+        _compileOptions.env === NODE_ENV_TESTING;
+  _compileOptions.cache =
+    mainOpts.cache != null ? mainOpts.cache : _compileOptions.dev === false;
 
-    _compileOptions.dev = mainOpts.dev != null ? mainOpts.dev : _compileOptions.env === NODE_ENV_DEVELOPMENT || _compileOptions.env === NODE_ENV_TESTING;
-    _compileOptions.cache = mainOpts.cache != null ? mainOpts.cache : _compileOptions.dev === false;
+  const _templateFilename = mainOpts.templateFilename || TEMPLATE_FILENAME;
 
-    const _templateFilename = mainOpts.templateFilename || TEMPLATE_FILENAME;
+  const _templateOptions = {
+    env: _compileOptions.env,
+    dev: _compileOptions.dev,
+    cache: _compileOptions.cache,
+  };
 
-    const _templateOptions = {
-        env: _compileOptions.env,
-        dev: _compileOptions.dev,
-        cache: _compileOptions.cache
-    };
+  const _legacy = mainOpts.legacy != null ? mainOpts.legacy : true;
 
-    const _legacy = mainOpts.legacy != null ? mainOpts.legacy : true;
+  // Clear tmp dir and create if not exists synchronous
+  ServerViewFactory.clear();
 
-    // Clear tmp dir and create if not exists synchronous
-    ServerViewFactory.clear();
+  /**
+   * @param {String} name
+   * @param {ExpressSvelteCompileOptions=} options
+   * @return {Promise.<Object>}
+   */
+  async function svelteCompile(name, options = {}) {
+    try {
+      // Lookup view with express view engine like logic
+      const filename = await Utils.lookup(name, viewsDirname, defaultExtension);
 
-    /**
-     * @param {String} name
-     * @param {ExpressSvelteCompileOptions=} options
-     * @return {Promise.<Object>}
-     */
-    async function svelteCompile(name, options = {}) {
-        try {
-            // Lookup view with express view engine like logic
-            const filename = await Utils.lookup(name, viewsDirname, defaultExtension);
+      if (filename == null) {
+        const err = new Error(
+          `Failed to lookup view "${name}" in views directories ${JSON.stringify(
+            viewsDirname
+          )}`
+        );
+        err.code = ERROR_EXPRESS_SVELTE_LOOKUP;
+        throw err;
+      }
 
-            if (filename == null) {
-                const err = new Error(`Failed to lookup view "${name}" in views directories ${JSON.stringify(viewsDirname)}`);
-                err.code = ERROR_EXPRESS_SVELTE_LOOKUP;
-                throw err;
-            }
+      // Define request props based on argument options and defaults from middleware
+      const cache =
+        options.cache != null ? options.cache : _compileOptions.cache;
+      const hydratable =
+        options.hydratable != null
+          ? options.hydratable === true
+          : _compileOptions.hydratable;
 
-            // Define request props based on argument options and defaults from middleware
-            const cache = options.cache != null ? options.cache : _compileOptions.cache;
-            const hydratable = options.hydratable != null ? options.hydratable === true : _compileOptions.hydratable;
+      try {
+        const compileOptions = {
+          ..._compileOptions,
+          cache,
+          hydratable,
+        };
 
-            try {
-                const compileOptions = {
-                    ..._compileOptions,
-                    cache,
-                    hydratable
-                };
+        // Create view component wrapped with ViewGlobals.svelte component and compile
+        const WrappedViewComponent =
+          await ServerViewFactory.createWrappedViewAndCompile(
+            filename,
+            compileOptions
+          );
 
-                // Create view component wrapped with ViewGlobals.svelte component and compile
-                const WrappedViewComponent = await ServerViewFactory.createWrappedViewAndCompile(filename, compileOptions);
+        // Get view filename key to be able to get view script if exists
+        const filenameKey = Utils.getRelativeFilenameKey(
+          filename,
+          viewsDirname
+        );
 
-                // Get view filename key to be able to get view script if exists
-                const filenameKey = Utils.getRelativeFilenameKey(filename, viewsDirname);
-
-                return {
-                    WrappedViewComponent,
-                    filename,
-                    filenameKey,
-                    cache,
-                    hydratable
-                };
-            }
-            catch(err) {
-                err.code = err.code || ERROR_EXPRESS_SVELTE_COMPILE;
-                throw err;
-            }
-        }
-        catch(err) {
-            throw err;
-        }
+        return {
+          WrappedViewComponent,
+          filename,
+          filenameKey,
+          cache,
+          hydratable,
+        };
+      } catch (err) {
+        err.code = err.code || ERROR_EXPRESS_SVELTE_COMPILE;
+        throw err;
+      }
+    } catch (err) {
+      throw err;
     }
+  }
 
-    /**
-     * @param {String} name
-     * @param {ExpressSvelteRenderOptions=} renderOptions
-     * @return {Promise}
-     */
-    async function svelteRender(name, renderOptions = {}) {
-        const { req } = this;
+  /**
+   * @param {String} name
+   * @param {ExpressSvelteRenderOptions=} renderOptions
+   * @return {Promise}
+   */
+  async function svelteRender(name, renderOptions = {}) {
+    const { req } = this;
 
-        try {
-            // Create view component wrapped with ViewGlobals.svelte component and compile
-            const { WrappedViewComponent, filenameKey, cache, hydratable } = await svelteCompile(name, renderOptions);
+    try {
+      // Create view component wrapped with ViewGlobals.svelte component and compile
+      const { WrappedViewComponent, filenameKey, cache, hydratable } =
+        await svelteCompile(name, renderOptions);
 
-            // Define request props based on argument options and defaults from middleware
-            const props = renderOptions.props || {};
-            const globalProps =  { ...renderOptions.globalProps };
-            const globalStores = { ...renderOptions.globalStores };
-            const legacy = _legacy;
+      // Define request props based on argument options and defaults from middleware
+      const props = renderOptions.props || {};
+      const globalProps = { ...renderOptions.globalProps };
+      const globalStores = { ...renderOptions.globalStores };
+      const legacy = _legacy;
 
-            // Render component
-            let output = null;
+      // Render component
+      let output = null;
 
-            try {
-                output = WrappedViewComponent.render({
-                    globalProps: { ...globalProps },
-                    globalStores: { ...globalStores },
-                    props
-                });
-            }
-            catch(err) {
-                err.code = err.code || ERROR_EXPRESS_SVELTE_RENDER;
-                return req.next(err);
-            }
+      try {
+        output = WrappedViewComponent.render({
+          globalProps: { ...globalProps },
+          globalStores: { ...globalStores },
+          props,
+        });
+      } catch (err) {
+        err.code = err.code || ERROR_EXPRESS_SVELTE_RENDER;
+        return req.next(err);
+      }
 
-            // Build template
-            const templateFilename = renderOptions.templateFilename || _templateFilename;
-            const templateOptions = {
-                ..._templateOptions,
-                cache
-            };
-            const template = await Utils.buildTemplateByFilename(templateFilename, templateOptions);
+      // Build template
+      const templateFilename =
+        renderOptions.templateFilename || _templateFilename;
+      const templateOptions = {
+        ..._templateOptions,
+        cache,
+      };
+      const template = await Utils.buildTemplateByFilename(
+        templateFilename,
+        templateOptions
+      );
 
-            // Build view script tag
-            let scriptLegacy = null;
-            let scriptModern = null;
+      // Build view script tag
+      let scriptLegacy = null;
+      let scriptModern = null;
 
-            if (hydratable === true) {
-                scriptLegacy = scriptsMap.get(`${filenameKey}-legacy`) || null;
-                scriptModern = scriptsMap.get(`${filenameKey}-modern`) || null;
-                scriptLegacy = scriptLegacy ? bundlesHost + scriptLegacy : null;
-                scriptModern = scriptModern ? bundlesHost + scriptModern : null;
-            }
+      if (hydratable === true) {
+        scriptLegacy = scriptsMap.get(`${filenameKey}-legacy`) || null;
+        scriptModern = scriptsMap.get(`${filenameKey}-modern`) || null;
+        scriptLegacy = scriptLegacy ? bundlesHost + scriptLegacy : null;
+        scriptModern = scriptModern ? bundlesHost + scriptModern : null;
+      }
 
-            // Build HTML
-            const str = template({
-                head: output.head,
-                style: WrappedViewComponent.css,
-                hydratable,
-                globalProps: hydratable ? globalProps : null,
-                globalStores: hydratable ? globalStores : null,
-                props: hydratable ? props : null,
-                legacy,
-                scriptLegacy: scriptLegacy,
-                scriptModern: scriptModern,
-                html: output.html
-            });
+      // Build HTML
+      const str = template({
+        head: output.head,
+        style: WrappedViewComponent.css,
+        hydratable,
+        globalProps: hydratable ? globalProps : null,
+        globalStores: hydratable ? globalStores : null,
+        props: hydratable ? props : null,
+        legacy,
+        scriptLegacy: scriptLegacy,
+        scriptModern: scriptModern,
+        html: output.html,
+      });
 
-            this.send(str);
-        }
-        catch(err) {
-            req.next(err);
-        }
+      this.send(str);
+    } catch (err) {
+      req.next(err);
     }
+  }
 
-    function expressSvelteMiddleware(req, res, next) {
-        res.svelteCompile = svelteCompile;
-        res.svelte = svelteRender;
-        next();
-    }
-    expressSvelteMiddleware.compile = svelteCompile;
-    return expressSvelteMiddleware;
+  function expressSvelteMiddleware(req, res, next) {
+    res.svelteCompile = svelteCompile;
+    res.svelte = svelteRender;
+    next();
+  }
+  expressSvelteMiddleware.compile = svelteCompile;
+  return expressSvelteMiddleware;
 }
 
 /**

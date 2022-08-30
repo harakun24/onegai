@@ -3,11 +3,11 @@ import env from "dotenv";
 import morgan from "morgan";
 import * as router from "../Routers/index.js";
 import ModelAdapter from "../Models/index.js";
-
+import { dir } from "./path.js";
 env.config();
 
 const app = new ex();
-app.use("/public", ex.static("/public"));
+app.use("/assets", ex.static(dir + "/public"));
 app.use(ex.json());
 app.use(ex.urlencoded({ extended: true }));
 app.use(morgan("tiny"));

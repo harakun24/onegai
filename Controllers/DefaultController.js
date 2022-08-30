@@ -6,7 +6,7 @@ export class DefaultController extends BaseController {
   }
   index(res) {
     // res.send("<h1>Hello world</h1>");
-    res.svelte("dev.svelte", {
+    res.svelte("text.svelte", {
       globalStores: {
         counter: 0,
       },
@@ -14,7 +14,12 @@ export class DefaultController extends BaseController {
         Hound: "Express Svelte Example",
       },
       props: {
-        value: "View prop",
+        user: [
+          { u: "dimas23", p: "123" },
+          { u: "dimas24", p: "124" },
+          { u: "dimas25", p: "125" },
+        ],
+        total: 10,
       },
     });
   }
