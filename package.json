@@ -5,8 +5,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "preinstall": "npm i -g pm2",
-    "start": "nodemon index.js",
+    "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
