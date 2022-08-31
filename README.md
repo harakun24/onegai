@@ -122,10 +122,10 @@
          "/<@get>index",
         ];
         ```
-        Format string
-        - / [end-point](#)
-        - <@get> [method](#)
-        - index [method Controller](#)
+        Format string `/<@get>index`:
+        - `/` [end-point](#)
+        - `<@get>` [method](#)
+        - `index` [method Controller](#)
       - menggunakan Controller
         ```js
         import { DefaultController } from "../Controllers/DefaultController.js";
