@@ -6,6 +6,6 @@ export class UserModel extends BaseModel {
   static fields = {
     userID: { type: INTEGER, primaryKey: true, autoIncrement: true },
     name: STRING,
-    gender: STRING,
+    gender: type.ENUM("male", "female"),
   };
 }

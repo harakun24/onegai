@@ -234,9 +234,9 @@ class ServerViewFactory {
     const wrappedViewFilename = await this.createWrappedView(filename);
     const arrFIle = filename.split("\\");
     console.log(`serve view: ${arrFIle[arrFIle.length - 1]}`.bgRed);
-    setTimeout(() => {
-      fs.unlinkSync(wrappedViewFilename);
-    }, 10000);
+    // setTimeout(() => {
+    //   fs.unlinkSync(wrappedViewFilename);
+    // }, 10000);
     return this.compile(wrappedViewFilename, opts);
   }
 }

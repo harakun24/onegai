@@ -17,7 +17,7 @@ app.use(
   })
 );
 app.routeHandler();
-app.sync();
+app.sync({ force: true });
 
 app.notFound((res) => {
   res.send("<h1>url not found</h1>");
