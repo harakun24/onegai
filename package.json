@@ -10,7 +10,7 @@
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "dimas abista",
   "license": "ISC",
   "dependencies": {
     "@faker-js/faker": "^7.4.0",
