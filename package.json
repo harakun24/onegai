@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "preinstall": "npm i -g pm2",
-    "start": "pm2 start node index.js",
+    "start": "PORT=3000 pm2 start node index.js -i max",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
