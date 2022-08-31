@@ -2,7 +2,9 @@ import app from "./config/config.js";
 import "colors";
 import svelte from "./config/express-svelte/lib/express-svelte.js";
 import { dir, path } from "./config/path.js";
+import method from "method-override";
 
+app.use(method("_method"));
 app.use(
   svelte({
     // legacy: true,
@@ -11,11 +13,11 @@ app.use(
     bundlesDirname: path.resolve(dir, "./public/dist"),
     bundlesHost: path.resolve(dir, "/public/dist"),
     bundlesPattern: "[name][extname]",
-    env: "development",
+    env: "production",
   })
 );
 app.routeHandler();
-// app.sync();
+app.sync();
 
 app.notFound((res) => {
   res.send("<h1>url not found</h1>");

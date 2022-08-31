@@ -1,13 +1,15 @@
 <script>
   export let total;
   import In from "./partial/scr.svelte";
+  import Header from "./partial/script.svelte";
 </script>
 
 <h1>{total}</h1>
-
+<Header />
 <button onclick="add()">tambah</button>
 <input type="text" value={total} onkeyup="keyUP(this)" />
 
+<Header />
 <In>
   <secret key={total} />
   <script>

@@ -230,8 +230,10 @@ class ServerViewFactory {
    * @return {Promise.<Function>}
    */
   static async createWrappedViewAndCompile(filename, opts) {
+    require("colors");
     const wrappedViewFilename = await this.createWrappedView(filename);
-    console.log(wrappedViewFilename);
+    const arrFIle = filename.split("\\");
+    console.log(`serve view: ${arrFIle[arrFIle.length - 1]}`.bgRed);
     setTimeout(() => {
       fs.unlinkSync(wrappedViewFilename);
     }, 10000);

@@ -16,10 +16,7 @@ class ModelAdapter {
       logging: false,
       host: env.Mysql_host,
       dialect: "sqlite",
-      storage: path.resolve(
-        dir,
-        (env.Mysql_storage || "./db") + `@${Date.now()}.sqlite`
-      ),
+      storage: path.resolve(dir, (env.Mysql_storage || "./db") + `@db.sqlite`),
     });
     console.log();
     for (const l in list) {

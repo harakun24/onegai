@@ -10,11 +10,12 @@ const app = new ex();
 app.use("/assets", ex.static(dir + "/public"));
 app.use(ex.json());
 app.use(ex.urlencoded({ extended: true }));
-app.use(morgan("tiny"));
+app.use(morgan("dev"));
 
 app.launch = function (cb) {
   const { env } = process;
   app.listen(env.PORT || 4000, function () {
+    const y = this.address();
     cb(this.address());
   });
 };

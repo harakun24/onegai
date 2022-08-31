@@ -11,3 +11,7 @@ function select(n) {
 function bound(v) {
   setInterval(v, 0);
 }
+
+setTimeout(() => {
+  select("In").remove();
+}, 100);
