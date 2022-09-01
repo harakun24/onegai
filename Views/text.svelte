@@ -1,32 +1,28 @@
 <script>
-  export let total;
   import In from "./partial/scr.svelte";
   import Header from "./partial/script.svelte";
+  let total = 0;
+  const props = { total };
 </script>
 
-<h1>{total}</h1>
 <Header />
-<button onclick="add()">tambah</button>
-<input type="text" value={total} onkeyup="keyUP(this)" />
-
-<Header />
-<In>
-  <secret key={total} />
+<h3>{total}</h3>
+<button onclick="add()">add</button>
+<button onclick="sub()">sub</button>
+<In {props}>
   <script>
-    let t = props("key") - 0;
+    let { total } = props();
     function add() {
-      t++;
+      ++total;
     }
-    let temp = t;
+    function sub() {
+      --total;
+    }
     bound(() => {
-      if (temp != t) {
-        temp = t;
-        select("h1").innerHTML = t;
-        select("input").value = t;
-      }
+      return { data: total, target: (val) => (select("h3").innerText = val) };
     });
-    function keyUP(tt) {
-      t = tt.value;
-    }
   </script>
 </In>
+
+<style>
+</style>

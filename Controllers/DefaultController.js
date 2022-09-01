@@ -1,5 +1,4 @@
 import { BaseController } from "./BaseController.js";
-
 export class DefaultController extends BaseController {
   constructor() {
     super("default");
@@ -19,7 +18,7 @@ export class DefaultController extends BaseController {
           { u: "dimas24", p: "124" },
           { u: "dimas25", p: "125" },
         ],
-        total: 10,
+        total: "reaksi kimia @1234!$~",
       },
     });
   }

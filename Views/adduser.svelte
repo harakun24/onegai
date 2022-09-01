@@ -4,5 +4,5 @@
     <option value="male">laki-laki</option>
     <option value="female">perempuan</option>
   </select>
-  <input type="submit" value="post" />
+  <button>submit</button>
 </form>

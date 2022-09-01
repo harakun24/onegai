@@ -1,16 +1,22 @@
 import { BaseController } from "./BaseController.js";
-
+import rabbit from "crypto-js/rabbit.js";
 export class UserController extends BaseController {
   constructor() {
     super("user");
   }
   async index(res) {
+    // let user = await this.Models.User.findAll();
     res.svelte("user", {
+      cache: true,
       props: {
         header: "user manager",
-        user: await this.Models.User.findAll(),
+        // user,
       },
     });
+  }
+  async bulkAll(res) {
+    const { User } = this.Models;
+    res.send(JSON.stringify(await User.findAll()));
   }
   addPages(res) {
     res.svelte("adduser", {});
@@ -67,6 +73,11 @@ export class UserController extends BaseController {
         res.message = Ex.message;
         res.req.app.internalError(res);
       }
+    }
+  }
+  async showdata(res) {
+    if (!res.req.params.text) res.redirect("/user");
+    else {
     }
   }
 }

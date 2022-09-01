@@ -3,34 +3,51 @@
 
   export let header;
   export let user;
+  let usr = user.map((t) => t.substr(0, 20));
+
+  import W from "./partial/scr.svelte";
 </script>
 
 <h1>{header}</h1>
-<a href="/user/add">
+<!-- <a href="/user/add">
   <button>tambah data</button>
-</a>
-
+</a> -->
+<Adduser />
+<input type="text" onkeyup="bundle(this)" />
 <table cellspacing="0">
-  <th>Nama</th>
-  <th>Gender</th>
+  <th>data enkripsi</th>
   <th>Aksi</th>
-  {#each user as d}
+  {#each usr as d}
     <tr>
-      <td>{d.name}</td>
-      <td>{d.gender}</td>
+      <td>{d}</td>
       <td>
         <a href="/user/edit/{d.userID}">
-          <button>edit data</button>
-        </a>
-        <a href="/user/hapus/{d.userID}">
-          <button>hapus data</button>
+          <button>lihat data</button>
         </a>
       </td>
     </tr>
   {/each}
 </table>
+<W>
+  <script>
+    function bundle(t) {
+      const val = t.value;
+      const td = selectAll(".nn");
+      console.log(td);
+      for (const d of td) {
+        const parent = d.parentNode;
+        parent.classList.remove("clue");
+        const text = d.innerText;
+        if (text.indexOf(val) == -1) parent.classList.add("clue");
+      }
+    }
+  </script>
+</W>
 
 <style>
+  :global(.clue) {
+    display: none;
+  }
   table,
   td,
   th {
@@ -39,14 +56,19 @@
   table {
     margin-top: 12px;
     text-align: center;
+    width: 40%;
   }
   td,
   th {
     padding: 10px;
   }
-  button {
-    padding: 5px;
+  :global(button) {
+    padding: 10px;
     background-color: blueviolet;
     color: white;
+  }
+  :global(input),
+  :global(select) {
+    padding: 10px;
   }
 </style>

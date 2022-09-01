@@ -24,7 +24,9 @@ export class BaseRouter {
         res.next = next;
         service[h](res);
       });
-      console.log(`   └`.yellow + `End-point ${ep}`.magenta);
+      console.log(
+        `   └----`.yellow + `${m.toUpperCase()}`.gray + ` ${ep}`.green
+      );
     }
   }
 }

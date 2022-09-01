@@ -3,30 +3,30 @@
 ## 1. STRUKTUR WEB
 
 - config
-  - config.js <i style="color:orange">core website</i>
-  - path.js <i style="color:aqua">configure \_\_dirname</i>
-  - express-svelte <i style="color:green">custom view engine: svelte for express</i>
-  - ctrl-cli.js <i style="color:pink">generator controller</i>
-  - model-cli.js <i style="color:pink">generator model</i>
-  - router-cli.js <i style="color:pink">generator router</i>
+  - config.js --------------------- core website</i>
+  - path.js ----------------------- configure \_\_dirname</i>
+  - express-svelte --------------- custom view engine: svelte for express</i>
+  - ctrl-cli.js --------------------- generator controller</i>
+  - model-cli.js -----------------&nbsp; generator model</i>
+  - router-cli.js ------------------ generator router</i>
 - Controllers
-  - baseController.js <i style="color:aqua">base class for controller</i>
+  - baseController.js ------------ base class for controller</i>
   - ... [list of controller]
 - Models
-  - index.js <i style="color:aqua">Model Adapter</i>
-  - BaseModel.js <i style="color:aqua">base class for models</i>
-  - index@association.js <i style="color:orange">describe relation between models</i>
-  - index@list.js <i style="color:aqua">listing models</i>
+  - index.js ---------------------- Model Adapter</i>
+  - BaseModel.js --------------- base class for models</i>
+  - index@association.js ------- describe relation between models</i>
+  - index@list.js ---------------- listing models</i>
   - ... [list of models]
-- public <i style="color:salmon">static file served by express</i>
+- public ---------------------------- static file served by express</i>
 - Routers
-  - index.js <i style="color:aqua">grouping routers</i>
-  - BaseRouter.js <i style="color:aqua">a base class for router</i>
+  - index.js --------------------- grouping routers</i>
+  - BaseRouter.js --------------- a base class for router</i>
   - ... [list of router]
-- Views <i style="color:orange">files svelte</i>
+- Views ---------------------------- files svelte</i>
 - .env
-- index.js <i style="color:aqua">web server // start point</i>
-- db.sqlite <i style="color:aqua">database</i>
+- index.js -------------------------- web server // start point</i>
+- db.sqlite ------------------------- database</i>
 
 ---
 
@@ -97,7 +97,7 @@
       ```javascript
       import { BaseRouter } from "./BaseRouter.js";
 
-      export class DefaultRouter extends BaseRouter {}
+      export class DefaultRouter extends BaseRouter {...}
       ```
 
       attribute driver mengatur end point untuk router tersebut
@@ -140,7 +140,7 @@
 
       ```js
       import { BaseController } from "./BaseController.js";
-      export class DefaultController extends BaseController {}
+      export class DefaultController extends BaseController {...}
       ```
 
       Controller mengakses class Model melalui ModelAdapter
@@ -159,7 +159,7 @@
 
       ```js
       import { BaseModel, type } from "./BaseModel.js";
-      export class UserModel extends BaseModel {}
+      export class UserModel extends BaseModel {...}
       ```
 
       mendeklarasikan schema table dalam database
@@ -174,3 +174,44 @@
         gender: STRING,
       };
       ```
+
+---
+
+## 4. Error Handling
+
+gunakan try...catch block
+
+```js
+try {
+  // TODO
+} catch (ex) {
+  // TODO
+}
+```
+
+handling 404 dan 500
+
+```js
+app.notFound((res) => {
+  res.send("<h1>url not found</h1>");
+});
+
+app.internalError = (res) => {
+  res.send(`
+      <h1>internal server error</h1>
+      <p>${res.message}</p>
+      <p>${res.req.url}</p>
+  `);
+};
+```
+
+implementasi internal error
+
+```js
+try {
+  // TODO
+} catch (ex) {
+  res.message = ex.message;
+  res.req.app.internalError(res);
+}
+```

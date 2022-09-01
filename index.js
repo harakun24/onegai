@@ -7,8 +7,9 @@ import method from "method-override";
 app.use(method("_method"));
 app.use(
   svelte({
-    // legacy: true,
-    // hydratable: true,
+    legacy: true,
+    hydratable: false,
+    cache: false,
     viewsDirname: "./Views/",
     bundlesDirname: path.resolve(dir, "./public/dist"),
     bundlesHost: path.resolve(dir, "/public/dist"),
@@ -17,7 +18,7 @@ app.use(
   })
 );
 app.routeHandler();
-app.sync({ force: true });
+app.sync();
 
 app.notFound((res) => {
   res.send("<h1>url not found</h1>");

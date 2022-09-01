@@ -7,10 +7,12 @@ export class UserRouter extends BaseRouter {
     //list route
     "/<@get>index",
     "/add<@get>addPages",
+    "/all<@get>bulkAll",
     "/edit/:id<@get>editPages",
     "/tambah<@post>createUser",
     "/update/:id<@put>updateUser",
     "/hapus/:id<@get>hapusUser",
+    "/show/:text<@get>showdata",
   ];
   constructor() {
     super("user");
