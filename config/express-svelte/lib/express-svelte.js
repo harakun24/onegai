@@ -165,8 +165,8 @@ function expressSvelte(mainOpts = {}) {
 
       // Define request props based on argument options and defaults from middleware
       const props = renderOptions.props || {};
-      const globalProps = { ...renderOptions.globalProps };
-      const globalStores = { ...renderOptions.globalStores };
+      const globalProps = { ...renderOptions.global };
+      const globalStores = { ...renderOptions.stores };
       const legacy = _legacy;
 
       // Render component
@@ -174,8 +174,8 @@ function expressSvelte(mainOpts = {}) {
 
       try {
         output = WrappedViewComponent.render({
-          globalProps: { ...globalProps },
-          globalStores: { ...globalStores },
+          global: { ...globalProps },
+          stores: { ...globalStores },
           props,
         });
       } catch (err) {

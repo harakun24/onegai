@@ -80,7 +80,7 @@ class ServerViewFactory {
     wrappedViewFilename =
       _wrappedViewTmpDirname +
       "/" +
-      // crypto.randomBytes(10).toString("hex") +
+      crypto.randomBytes(10).toString("hex") +
       arr[arr.length - 1];
 
     await fs.writeFile(wrappedViewFilename, wrappedViewContentStr, {
@@ -128,8 +128,8 @@ class ServerViewFactory {
       input: wrappedViewFilename,
       plugins: [
         replace({
-          preventAssignment: false,
-          "process.browser": true,
+          preventAssignment: true,
+          "process.browser": false,
           "process.env.NODE_ENV": `'${env}'`,
           ...replaceOpts,
         }),
@@ -146,7 +146,7 @@ class ServerViewFactory {
         }),
 
         svelte({
-          emitCss: true,
+          emitCss: false,
           preprocess,
           compilerOptions: {
             css: true,

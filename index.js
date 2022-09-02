@@ -8,7 +8,7 @@ app.use(method("_method"));
 app.use(
   svelte({
     legacy: true,
-    hydratable: false,
+    hydratable: true,
     cache: false,
     viewsDirname: "./Views/",
     bundlesDirname: path.resolve(dir, "./public/dist"),
