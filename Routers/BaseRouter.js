@@ -24,9 +24,7 @@ export class BaseRouter {
         res.next = next;
         service[h](res);
       });
-      console.log(
-        `   └----`.yellow + `${m.toUpperCase()}`.gray + ` ${ep}`.green
-      );
+      console.log(`   └--`.yellow + `${m.toUpperCase()}`.gray + ` ${ep}`.green);
     }
   }
 }

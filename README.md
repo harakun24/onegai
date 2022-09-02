@@ -86,7 +86,11 @@
 
     - ### class Router
 
-      semua router diexport dalam satu file /Routers/index.js
+      - pembuatan menggunakan /config/router-cli.js
+        ```
+         > node ./config/router-cli.js RouterBaru
+        ```
+        semua router diexport dalam satu file /Routers/index.js
 
       ```js
       export * from "./DefaultRouter.js";
@@ -136,7 +140,11 @@
 
     - ### class Controller
 
-      semua controller merupakan turunan dari BaseController
+      - pembuatan menggunakan /config/ctrl-cli.js
+        ```
+         > node ./config/ctrl-cli.js ControllerBaru
+        ```
+        semua controller merupakan turunan dari BaseController
 
       ```js
       import { BaseController } from "./BaseController.js";
@@ -155,7 +163,11 @@
 
     - ### class Model
 
-      semua model merupakan turunan BaseModel
+      - pembuatan menggunakan /config/model-cli.js
+        ```
+         > node ./config/model-cli.js ModelBaru
+        ```
+        semua model merupakan turunan BaseModel
 
       ```js
       import { BaseModel, type } from "./BaseModel.js";

@@ -59,6 +59,7 @@ class ServerViewFactory {
    * @return {Promise.<String>}
    */
   static async createWrappedView(filename) {
+    filename = filename.replaceAll("\\", "/");
     if (_wrappedViewTemplateStr == null) {
       _wrappedViewTemplateStr = await fs.readFile(
         VIEW_GLOBALS_COMPONENT_FILENAME,
@@ -71,16 +72,16 @@ class ServerViewFactory {
     if (wrappedViewFilename != null) {
       return wrappedViewFilename;
     }
-    filename = filename.replaceAll("\\", "/");
     const wrappedViewContentStr = _wrappedViewTemplateStr.replace(
       "export let component;",
       `import component from '${filename}'`
     );
+    const arr = filename.split("/");
     wrappedViewFilename =
       _wrappedViewTmpDirname +
       "/" +
-      crypto.randomBytes(10).toString("hex") +
-      ".svelte";
+      // crypto.randomBytes(10).toString("hex") +
+      arr[arr.length - 1];
 
     await fs.writeFile(wrappedViewFilename, wrappedViewContentStr, {
       encoding: "utf8",
@@ -127,8 +128,8 @@ class ServerViewFactory {
       input: wrappedViewFilename,
       plugins: [
         replace({
-          preventAssignment: true,
-          "process.browser": false,
+          preventAssignment: false,
+          "process.browser": true,
           "process.env.NODE_ENV": `'${env}'`,
           ...replaceOpts,
         }),
@@ -148,7 +149,7 @@ class ServerViewFactory {
           emitCss: true,
           preprocess,
           compilerOptions: {
-            css: false,
+            css: true,
             generate: "ssr",
             dev,
             preserveComments: dev,
@@ -233,7 +234,7 @@ class ServerViewFactory {
     require("colors");
     const wrappedViewFilename = await this.createWrappedView(filename);
     const arrFIle = filename.split("\\");
-    console.log(`serve view: ${arrFIle[arrFIle.length - 1]}`.bgRed);
+    console.log(`re-rendering: ${arrFIle[arrFIle.length - 1]}`.red);
     // setTimeout(() => {
     //   fs.unlinkSync(wrappedViewFilename);
     // }, 10000);
