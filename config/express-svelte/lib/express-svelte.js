@@ -164,9 +164,10 @@ function expressSvelte(mainOpts = {}) {
         await svelteCompile(name, renderOptions);
 
       // Define request props based on argument options and defaults from middleware
-      const props = renderOptions.props || {};
-      const globalProps = { ...renderOptions.global };
-      const globalStores = { ...renderOptions.stores };
+      let { global, stores, ...renderprop } = renderOptions;
+      const props = renderprop || {};
+      const globalProps = { ...global };
+      const globalStores = { ...stores };
       const legacy = _legacy;
 
       // Render component
