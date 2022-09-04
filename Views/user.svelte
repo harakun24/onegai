@@ -1,13 +1,9 @@
 <script>
   import Link from "./partial/scr.svelte";
   export let user;
-  export let header;
   const props = { user };
 </script>
 
-<svelte:head>
-  <title>{header}</title>
-</svelte:head>
 <a href="/user/add"><button>tambah</button></a>
 <table>
   <tr>
@@ -39,3 +35,26 @@
   <script>
   </script>
 </Link>
+
+<style>
+  table {
+    border: 1px solid black;
+    padding: 20px;
+    margin-top: 3px;
+  }
+  a {
+    text-decoration: none;
+  }
+  th,
+  td {
+    padding: 10px;
+    border-bottom: 1px solid black;
+    margin: 0;
+  }
+  button {
+    padding: 10px;
+  }
+  *:not(button) {
+    font-size: 1.2em;
+  }
+</style>

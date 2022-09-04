@@ -129,7 +129,7 @@ class ServerViewFactory {
       plugins: [
         replace({
           preventAssignment: true,
-          "process.browser": false,
+          "process.browser": true,
           "process.env.NODE_ENV": `'${env}'`,
           ...replaceOpts,
         }),
@@ -146,10 +146,10 @@ class ServerViewFactory {
         }),
 
         svelte({
-          emitCss: false,
+          emitCss: true,
           preprocess,
           compilerOptions: {
-            css: true,
+            // css: true,
             generate: "ssr",
             dev,
             preserveComments: dev,
@@ -234,7 +234,7 @@ class ServerViewFactory {
     require("colors");
     const wrappedViewFilename = await this.createWrappedView(filename);
     const arrFIle = filename.split("\\");
-    console.log(`re-rendering: ${arrFIle[arrFIle.length - 1]}`.red);
+    console.log(`processing views: ${arrFIle[arrFIle.length - 1]}`.red);
     // setTimeout(() => {
     //   fs.unlinkSync(wrappedViewFilename);
     // }, 10000);

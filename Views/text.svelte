@@ -14,6 +14,8 @@
 <In {props}>
   <script>
     let { total } = props();
+    console.log();
+    total;
     function add() {
       ++total;
     }

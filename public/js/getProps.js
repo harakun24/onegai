@@ -10,14 +10,14 @@ function tach(val) {
   if (!val) return null;
   return `${val}`
     .split("")
-    .map((t) => t.charCodeAt(0) / 1024)
+    .map((t) => t.charCodeAt(0) * 1024)
     .reduce((a, b) => `${a}'${b}`);
 }
 function detach(val) {
   if (!val) return null;
   return val
     .split("'")
-    .map((t) => String.fromCharCode(t * 1024))
+    .map((t) => String.fromCharCode(parseInt(t, 16) / 1024))
     .reduce((a, b) => `${a}${b}`);
 }
 function props(n = null) {

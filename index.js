@@ -7,14 +7,8 @@ import method from "method-override";
 app.use(method("_method"));
 app.use(
   svelte({
-    legacy: true,
     hydratable: false,
-    cache: false,
     viewsDirname: "./Views/",
-    bundlesDirname: path.resolve(dir, "./public/dist"),
-    bundlesHost: path.resolve(dir, "/public/dist"),
-    bundlesPattern: "[name][extname]",
-    env: "development",
   })
 );
 app.routeHandler();

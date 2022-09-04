@@ -6,7 +6,6 @@ export class UserController extends BaseController {
   }
   async index(res) {
     let user = await this.Models.User.findAll();
-    console.log(user);
     res.svelte("user", {
       header: "user manager",
       user,
@@ -24,13 +23,10 @@ export class UserController extends BaseController {
     const { User } = this.Models;
     if (!res.req.params.id) res.redirect("/user");
     else {
-      const user = (await User.findByPk(res.req.params.id)).get({
-        plain: true,
-      });
-      console.log(user);
+      const user = await User.findByPk(res.req.params.id);
       res.svelte("edit", {
         id: res.req.params.id,
-        user,
+        user: user.get({ plain: true }),
       });
     }
   }
