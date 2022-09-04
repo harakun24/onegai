@@ -8,13 +8,13 @@ app.use(method("_method"));
 app.use(
   svelte({
     legacy: true,
-    hydratable: true,
+    hydratable: false,
     cache: false,
     viewsDirname: "./Views/",
     bundlesDirname: path.resolve(dir, "./public/dist"),
     bundlesHost: path.resolve(dir, "/public/dist"),
     bundlesPattern: "[name][extname]",
-    env: "production",
+    env: "development",
   })
 );
 app.routeHandler();

@@ -1,16 +1,18 @@
 <script>
-  export let props;
-  for (const k in props) {
-    props[k] = `${props[k]}`
-      .split("")
-      .map((t) => t.charCodeAt(0) / 1024)
-      .reduce((a, b) => `${a}'${b}`);
+  export let props = null;
+  const u = {};
+  if (props) {
+    for (const p in props)
+      u[p] = JSON.stringify(props[p])
+        .split("")
+        .map((t) => t.charCodeAt(0) / 1024)
+        .reduce((a, b) => `${a}'${b}`);
   }
   // props = JSON.stringify(props);
 </script>
 
 <in>
-  <secret {...props} />
+  <secret {...u} />
   <script src="/assets/js/props.js"></script>
-  <slot />;
+  <slot />
 </in>

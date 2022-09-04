@@ -4,7 +4,7 @@ const arr = {};
 for (const n of name) {
   let y = document.querySelector("secret").getAttribute(n);
   document.querySelector("secret").removeAttribute(n);
-  arr[n] = detach(y);
+  arr[n] = JSON.parse(detach(y));
 }
 function tach(val) {
   if (!val) return null;

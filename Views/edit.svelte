@@ -4,7 +4,7 @@
   import Scr from "./partial/scr.svelte";
 </script>
 
-{#if user && id}
+{#if true}
   <form action="/user/update/{id}?_method=PUT" method="post">
     <input required type="text" name="name" id="" value={user.name} />
     <select name="gender" id="">

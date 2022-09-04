@@ -1,74 +1,41 @@
 <script>
-  import Adduser from "./adduser.svelte";
-
-  export let header;
+  import Link from "./partial/scr.svelte";
   export let user;
-  let usr = user.map((t) => t.substr(0, 20));
-
-  import W from "./partial/scr.svelte";
+  export let header;
+  const props = { user };
 </script>
 
-<h1>{header}</h1>
-<!-- <a href="/user/add">
-  <button>tambah data</button>
-</a> -->
-<Adduser />
-<input type="text" onkeyup="bundle(this)" />
-<table cellspacing="0">
-  <th>data enkripsi</th>
-  <th>Aksi</th>
-  {#each usr as d}
+<svelte:head>
+  <title>{header}</title>
+</svelte:head>
+<a href="/user/add"><button>tambah</button></a>
+<table>
+  <tr>
+    <th>id</th>
+    <th>name</th>
+    <th>gender</th>
+    <th>aksi</th>
+  </tr>
+  {#each user as u}
     <tr>
-      <td>{d}</td>
+      <td>{u.userID}</td>
+      <td>{u.name}</td>
+      <td>{u.gender}</td>
       <td>
-        <a href="/user/edit/{d.userID}">
-          <button>lihat data</button>
+        <a href="/user/edit/{u.userID}">
+          <button> edit </button>
         </a>
+        <a href="/user/hapus/{u.userID}"><button> hapus </button></a>
       </td>
+    </tr>
+  {:else}
+    <tr>
+      <td colspan="4">empty</td>
     </tr>
   {/each}
 </table>
-<W>
-  <script>
-    function bundle(t) {
-      const val = t.value;
-      const td = selectAll(".nn");
-      console.log(td);
-      for (const d of td) {
-        const parent = d.parentNode;
-        parent.classList.remove("clue");
-        const text = d.innerText;
-        if (text.indexOf(val) == -1) parent.classList.add("clue");
-      }
-    }
-  </script>
-</W>
 
-<style>
-  :global(.clue) {
-    display: none;
-  }
-  table,
-  td,
-  th {
-    border: 1px solid black;
-  }
-  table {
-    margin-top: 12px;
-    text-align: center;
-    width: 40%;
-  }
-  td,
-  th {
-    padding: 10px;
-  }
-  :global(button) {
-    padding: 10px;
-    background-color: blueviolet;
-    color: white;
-  }
-  :global(input),
-  :global(select) {
-    padding: 10px;
-  }
-</style>
+<Link {props}>
+  <script>
+  </script>
+</Link>

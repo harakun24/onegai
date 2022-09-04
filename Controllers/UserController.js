@@ -5,13 +5,12 @@ export class UserController extends BaseController {
     super("user");
   }
   async index(res) {
-    // let user = await this.Models.User.findAll();
+    let user = await this.Models.User.findAll();
+    console.log(user);
     res.svelte("user", {
-      cache: true,
-      props: {
-        header: "user manager",
-        // user,
-      },
+      header: "user manager",
+      user,
+      stores: { rate: 2 },
     });
   }
   async bulkAll(res) {
@@ -24,13 +23,16 @@ export class UserController extends BaseController {
   async editPages(res) {
     const { User } = this.Models;
     if (!res.req.params.id) res.redirect("/user");
-    else
-      res.svelte("edit", {
-        props: {
-          id: res.req.params.id,
-          user: await User.findByPk(res.req.params.id),
-        },
+    else {
+      const user = (await User.findByPk(res.req.params.id)).get({
+        plain: true,
       });
+      console.log(user);
+      res.svelte("edit", {
+        id: res.req.params.id,
+        user,
+      });
+    }
   }
   async createUser(res) {
     const { body } = res.req;
