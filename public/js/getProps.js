@@ -36,12 +36,13 @@ function selectAll(n) {
 function bound(v) {
   const { data } = v();
   const name = `compare-${JSON.stringify(data)}`;
+  console.log(name);
   localStorage.setItem(name, null);
   setInterval(() => {
-    const { data, target } = v();
+    const { data, dom } = v();
     if (data != localStorage.getItem(name)) {
       localStorage.setItem(name, data);
-      target(data);
+      dom(data);
     }
   }, 0);
 }
