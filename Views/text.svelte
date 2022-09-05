@@ -3,9 +3,11 @@
   import Header from "./partial/script.svelte";
   export let total;
   const props = { total };
+  export let global;
+  let { title } = global;
 </script>
 
-<Header />
+<Header {title} />
 <h3>{total}</h3>
 <hr />
 <button onclick="total++">add</button>
@@ -14,7 +16,12 @@
   <script>
     let { total } = props();
     bound(() => {
-      return { data: total, target: (val) => (select("h3").innerText = val) };
+      return {
+        data: total,
+        dom: (val) => {
+          select("h3").innerText = val;
+        },
+      };
     });
   </script>
 </In>

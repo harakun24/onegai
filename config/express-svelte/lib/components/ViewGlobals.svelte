@@ -25,7 +25,7 @@
 
   setContext("global", global);
   setContext("stores", _createStores(stores));
-  props = { ...props, ...global };
+  props = { ...props, global };
 </script>
 
-<svelte:component this={component} {...props} {...global} />
+<svelte:component this={component} {...props} />
