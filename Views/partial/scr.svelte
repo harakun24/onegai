@@ -13,6 +13,6 @@
 
 <in>
   <secret {...u} />
-  <script src="/assets/js/props.js"></script>
+  <script src="/assets/dist/js/props.js"></script>
   <slot />
 </in>
