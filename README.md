@@ -187,6 +187,138 @@
       };
       ```
 
+3.  Views
+
+    inisiasi view
+
+    ```js
+    import svelte from "./config/express-svelte/lib/express-svelte.js";
+
+     ...
+
+    app.use(
+      svelte({
+        hydratable: false,
+        viewsDirname: "./Views/",
+      })
+    );
+
+    ```
+
+    contoh response view melalui Controller:
+
+    ```js
+    res.svelte("contoh.svelte", {});
+    ```
+
+    - passing data dari controller
+
+      - local props
+
+        props lokal hanya dapat diakses oleh view yang ditugaskan
+
+        ```js
+        res.svelte("contoh.svelte", { hasil: 20 });
+        ```
+
+      - global props
+
+        global props dapat diakses antar views yang ditugaskan
+
+        ```js
+        res.svelte("contoh.svelte", { global: { hasil: 20 } });
+        ```
+
+      - states
+
+        states
+
+        ```js
+        res.svelte("contoh.svelte", { states: { hasil: 20 } });
+        ```
+
+- ## Template view
+
+  setiap view memiliki 3 bagian
+
+  - script pre-compiled // server side
+  - html tag
+  - style // local css
+
+    ```html
+    <script>
+      //some script
+    </script>
+
+    <h1>Hello world!</h1>
+
+    <style>
+      h1 {
+        color: red;
+      }
+    </style>
+    ```
+
+  mengakses data dari controller
+
+  ```js
+  //Controller method
+  res.svelte("contoh.svelte", { hasil: 20 });
+
+  //contoh.svelte
+  <script> export let hasil; </script>;
+
+  //menampilkan data di view
+  <h1>{hasil}</h1>;
+  ```
+
+- ### mengakses data dari client side
+
+  - import component Link
+    ```js
+    import Link from "./partial/scr.svelte";
+    ```
+  - bundle semua props
+
+    props yang ingin diakses dari sisi client wajib dijadikan satu object;
+
+    ```js
+    const props = { total, title: `documentasi` };
+    ```
+
+  - passing props ke dalam link
+    ```js
+    <Link {props}></Link>
+    ```
+  - buat script di dalam Link
+
+    - akses semua props melalui fungsi **props()**
+      ```js
+      <Link {props}>
+        <script>
+          //akses single props
+          const title = props("title");
+          ...
+          //desctructuring
+          const {total,title} = props();
+        </script>
+      </Link>
+      ```
+    - gunakan bound untuk mentracking perubahan nilai
+
+      > fungsi select merupakan shorthand untuk document.querySelector
+
+      ```js
+      bound(() => {
+        return {
+          data: total,
+          dom: (newVal) => {
+            select("h1").innerText = newVal;
+          },
+        };
+      });
+      ```
+
 ---
 
 ## 4. Error Handling
