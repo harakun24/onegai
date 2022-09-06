@@ -11,13 +11,14 @@ function tach(val) {
   return `${val}`
     .split("")
     .map((t) => t.charCodeAt(0) * 1024)
-    .reduce((a, b) => `${a}'${b}`);
+    .toString(30)
+    .reduce((a, b) => `${a}y${b}`);
 }
 function detach(val) {
   if (!val) return null;
   return val
-    .split("'")
-    .map((t) => String.fromCharCode(parseInt(t, 16) / 1024))
+    .split("y")
+    .map((t) => String.fromCharCode(parseInt(t, 30) / 1024))
     .reduce((a, b) => `${a}${b}`);
 }
 function props(n = null) {
@@ -36,7 +37,6 @@ function selectAll(n) {
 function bound(v) {
   const { data } = v();
   const name = `compare-${JSON.stringify(data)}`;
-  console.log(name);
   localStorage.setItem(name, null);
   setInterval(() => {
     const { data, dom } = v();

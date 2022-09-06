@@ -6,7 +6,7 @@ export class DefaultController extends BaseController {
   index(res) {
     // res.send("<h1>Hello world</h1>");
     res.svelte("text.svelte", {
-      total: 0,
+      total: 9,
       title: "hara",
       global: { title: "addition" },
     });

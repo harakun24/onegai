@@ -2,9 +2,9 @@
   import In from "./partial/scr.svelte";
   import Header from "./partial/script.svelte";
   export let total;
-  const props = { total };
   export let global;
   let { title } = global;
+  const props = { total, title: 11, global };
 </script>
 
 <Header {title} />
@@ -14,7 +14,8 @@
 <button onclick="total--">sub</button>
 <In {props}>
   <script>
-    let { total } = props();
+    let { total, global, title } = props();
+    console.log(JSON.stringify({ global }), title);
     bound(() => {
       return {
         data: total,
