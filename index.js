@@ -1,7 +1,6 @@
 import app from "./config/config.js";
 import "colors";
 import svelte from "./config/express-svelte/lib/express-svelte.js";
-import { dir, path } from "./config/path.js";
 import method from "method-override";
 
 app.use(method("_method"));
