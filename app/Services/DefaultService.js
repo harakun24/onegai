@@ -6,6 +6,6 @@ export class DefaulService extends base {
     super("default");
   }
   async render(res) {
-    res.send("hello services!");
+    res.render("layouts/template");
   }
 }

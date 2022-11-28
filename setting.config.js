@@ -1,12 +1,15 @@
 import Adapter from "./app/Models/index.js";
+import env from "dotenv";
 import ex from "express";
 import morgan from "morgan";
-import env from "dotenv";
+import ejs from "ejs";
 import "colors";
+
 env.config();
 
 const app = new ex();
 
+app.engine("html", ejs.renderFile);
 app.use(morgan("dev"));
 app.use(ex.json());
 app.use(ex.urlencoded({ extended: true }));
@@ -16,6 +19,9 @@ app.notFound = (cb) => {
     res.req = req;
     cb(res);
   });
+};
+app.static = (dest, src) => {
+  app.use(dest, ex.static(src));
 };
 app.launch = (cb) => {
   const { env } = process;
