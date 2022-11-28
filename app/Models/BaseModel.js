@@ -2,9 +2,9 @@ import { Model } from "sequelize";
 
 export class BaseModel extends Model {
   static connect(sequelize) {
-    this.init(this.fields, {
+    this.init(this.tableFields, {
       sequelize,
-      modelName: this.table,
+      modelName: this.tableName,
     });
   }
 }

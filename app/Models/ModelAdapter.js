@@ -26,9 +26,13 @@ export class ModelAdapter {
     for (const name in listModel) {
       listModel[name].connect(this.#driver);
       console.log(` [`.gray + `___ ${name}___`.bgGray.black + `]`.gray);
+      this.#models[name] = listModel[name];
     }
   }
   get driver() {
     return this.#driver;
+  }
+  get list() {
+    return this.#models;
   }
 }

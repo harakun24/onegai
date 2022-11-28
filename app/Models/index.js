@@ -1,3 +1,5 @@
 import { ModelAdapter } from "./ModelAdapter.js";
 
-export default new ModelAdapter();
+const adapter = new ModelAdapter();
+export default adapter;
+export var models = adapter.list;
