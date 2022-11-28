@@ -1,8 +1,10 @@
 import denv from "dotenv";
 import Sequelize from "sequelize";
 import { dir, path } from "../../path.js";
-import "colors";
 import * as listModel from "./model@list.js";
+import assoc from "./model@assoc.js";
+
+import "colors";
 
 denv.config();
 
@@ -25,9 +27,10 @@ export class ModelAdapter {
     });
     for (const name in listModel) {
       listModel[name].connect(this.#driver);
-      console.log(` [`.gray + `___ ${name}___`.bgGray.black + `]`.gray);
+      console.log(` [`.gray + `___ ${name}___`.bgBlue + `]`.blue);
       this.#models[name] = listModel[name];
     }
+    assoc(this.#models);
   }
   get driver() {
     return this.#driver;
