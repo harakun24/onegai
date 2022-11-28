@@ -1,29 +1,12 @@
-import app from "./config/config.js";
-import "colors";
-import svelte from "./config/express-svelte/lib/express-svelte.js";
-import method from "method-override";
+import app from "./setting.config.js";
+import { DefaultRouter } from "./app/Routers/DefaultRouter.js";
 
-app.use(method("_method"));
-app.use(
-  svelte({
-    hydratable: false,
-    viewsDirname: "./Views/",
-  })
-);
-app.routeHandler();
 app.sync();
 
+app.use(...new DefaultRouter().handler);
 app.notFound((res) => {
-  res.send("<h1>url not found</h1>");
+  res.send("404 kali");
 });
-
-app.internalError = (res) => {
-  res.send(`<h1>internal server error</h1>
-  <p>${res.message}</p>
-  <p>${res.req.url}</p>
-  `);
-};
-
 app.launch((addr) => {
-  console.log(`\n\tserver listen on :${addr.port}\n`.cyan);
+  console.log(`\nlisten on port ${addr.port}`);
 });
