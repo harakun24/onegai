@@ -1,5 +1,6 @@
 import base from "./BaseService.js";
 import axios from "axios";
+import { Op } from "sequelize";
 
 const { Admin } = base.models;
 export class AdminService extends base {
@@ -16,15 +17,9 @@ export class AdminService extends base {
     } catch (error) {
       console.log(error.message);
     }
-    console.log(
-      res.req.get("host").replace("localhost", "127.0.0.1") +
-        "/dashboard/res/table-admin"
-    );
+    console.log(base.baseUrl(res) + "/dashboard/res/table-admin");
     const response = await axios.post(
-      res.req.protocol +
-        "://" +
-        res.req.get("host").replace("localhost", "127.0.0.1") +
-        "/dashboard/res/table-admin"
+      base.baseUrl(res) + "/dashboard/res/table-admin"
     );
     res.send(response.data);
   }
@@ -40,10 +35,7 @@ export class AdminService extends base {
       console.log(error.message);
     }
     const response = await axios.post(
-      res.req.protocol +
-        "://" +
-        res.req.get("host") +
-        `/dashboard/res/row-admin/${res.req.params.id}`
+      base.baseUrl(res) + `/dashboard/res/row-admin/${res.req.params.id}`
     );
     // console.log(response.data);
     res.send(response.data);
@@ -57,13 +49,11 @@ export class AdminService extends base {
       console.log(error.message);
     }
     const response = await axios.post(
-      res.req.protocol +
-        "://" +
-        res.req.get("host").replace("localhost", "127.0.0.1") +
-        "/dashboard/res/table-admin"
+      base.baseUrl(res) + "/dashboard/res/table-admin"
     );
     res.send(response.data);
   }
+
   //micro views
   async res_dashboard(res) {
     res.render("layouts/dashboard.html");
@@ -72,17 +62,20 @@ export class AdminService extends base {
     res.render("layouts/admin-man.html");
   }
   async res_table_show(res) {
-    res.render("components/table-admin.html", {
-      list: await Admin.findAll({ order: [["userID", "DESC"]] }),
-    });
+    findAll(res, { order: [["userID", "DESC"]] });
   }
   async res_add_row(res) {
     res.render("components/add-admin.html");
   }
   async res_add(res) {
-    const url = res.req.protocol + "://" + res.req.get("host");
-    const first = (await axios.post(url + "/dashboard/res/add-row")).data;
-    const second = (await axios.post(url + "/dashboard/res/table-admin")).data;
+    // const first = (await axios.post(url + "/dashboard/res/add-row-admin")).data;
+    const first = (
+      await axios.post(base.baseUrl(res) + "/dashboard/res/add-row-admin")
+    ).data;
+    const second = (
+      await axios.post(base.baseUrl(res) + "/dashboard/res/table-admin")
+    ).data;
+    console.log(first);
     res.send(`${first} ${second}`);
   }
   async res_edit(res) {
@@ -95,4 +88,16 @@ export class AdminService extends base {
       item: (await Admin.findAll({ where: { userID: res.req.params.id } }))[0],
     });
   }
+  async res_search(res) {
+    findAll(res, {
+      where: { name: { [Op.like]: `%${res.req.body.name}%` } },
+      order: [["userID", "DESC"]],
+    });
+  }
 }
+
+const findAll = async (res, option) => {
+  res.render("components/table-admin.html", {
+    list: await Admin.findAll(option),
+  });
+};

@@ -1,39 +1,16 @@
 <% if(locals.list && locals.list.length>0) { %>
 <!--  -->
+
 <% list.forEach(item=> {%>
-<tr>
-  <td><%- item.name %></td>
-  <td class="col-4">
-    <input
-      type="password"
-      class="form-control"
-      value="<%- item.password %>"
-      readonly
-      disabled
-    />
-  </td>
-  <td>
-    <div class="col-12 d-flex justify-content-center">
-      <button
-        class="btn btn-outline-success"
-        hx-post="/dashboard/res/edit-admin/<%- item.userID %> "
-        hx-target="closest tr"
-        hx-swap="outerHTML"
-      >
-        <i class="bi bi-pencil-square"></i>
-      </button>
-      <button
-        class="btn mx-2 btn-danger"
-        hx-delete="/dashboard/delete-admin/<%- item.userID %> "
-        hx-target="#tbody"
-        hx-confirm="yakin ingin menghapus data?"
-      >
-        <i class="bi bi-trash"></i>
-      </button>
-    </div>
-  </td>
+<!-- <tr
+  hx-post="/dashboard/res/row-admin/<%- item.userID %> "
+  hx-trigger="load"
+  hx-swap="outerHTML"
+>
+  <td colspan="3">memuat...</td>
 </tr>
-<%})%> <% } else{ %>
+-->
+<%- include("row-admin.html",{item}) %> <%})%> <% } else{ %>
 <!--  -->
 <tr>
   <td colspan="3">data kosong</td>

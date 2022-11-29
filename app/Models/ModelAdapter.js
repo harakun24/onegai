@@ -25,9 +25,10 @@ export class ModelAdapter {
         (env.db_storage || "./database@pub") + ".sqlite"
       ),
     });
+    console.log();
     for (const name in listModel) {
       listModel[name].connect(this.#driver);
-      console.log(` [`.gray + `___ ${name}___`.bgBlue + `]`.blue);
+      console.log(` [`.gray + `___ ${name}___`.bgGray.black + `]`.gray);
       this.#models[name] = listModel[name];
     }
     assoc(this.#models);

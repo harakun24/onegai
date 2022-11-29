@@ -4,18 +4,30 @@
   <div class="card">
     <div class="card-body">
       <h5 class="card-title">Admin Manager</h5>
-      <div class="col-12">
+      <div class="col-12 d-flex">
         <button
           class="btn btn-primary"
           hx-post="/dashboard/res/add-admin"
           hx-target="#tbody"
+          ;
         >
           <i class="bi bi-person-plus"></i> | tambah
         </button>
+        <div class="form-group col-4 px-3">
+          <input
+            type="search"
+            name="name"
+            placeholder="cari admin..."
+            class="form-control"
+            hx-post="/dashboard/res/search-admin"
+            hx-trigger="keyup changed"
+            hx-target="#tbody"
+          />
+        </div>
       </div>
       <div class="col-12 text-center">
         <div class="table-responsive">
-          <table class="mt-2 table table-bordered border-primary">
+          <table class="mt-2 table table-bordered border-primary datatable">
             <thead>
               <tr>
                 <th>username</th>

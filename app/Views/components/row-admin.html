@@ -1,6 +1,14 @@
 <tr>
   <td><%- item.name %></td>
-  <td><%- item.password %></td>
+  <td class="col-4">
+    <input
+      type="password"
+      class="form-control"
+      value="<%- item.password %>"
+      readonly
+      disabled
+    />
+  </td>
   <td>
     <div class="col-12 d-flex justify-content-center">
       <button
@@ -15,6 +23,7 @@
         class="btn mx-2 btn-danger"
         hx-delete="/dashboard/delete-admin/<%- item.userID %> "
         hx-target="#tbody"
+        hx-confirm="yakin ingin menghapus <%- item.name %> "
       >
         <i class="bi bi-trash"></i>
       </button>

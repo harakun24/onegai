@@ -1,7 +1,8 @@
 import Adapter from "./app/Models/index.js";
+import morgan from "morgan";
 import env from "dotenv";
 import ex from "express";
-import morgan from "morgan";
+// import compress from "compression";
 import ejs from "ejs";
 import "colors";
 
@@ -13,6 +14,7 @@ app.engine("html", ejs.renderFile);
 app.use(morgan("dev"));
 app.use(ex.json());
 app.use(ex.urlencoded({ extended: true }));
+// app.use(compress());
 
 app.notFound = (cb) => {
   app.use((req, res, next) => {
