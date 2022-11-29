@@ -1,7 +1,11 @@
 <aside id="sidebar" class="sidebar">
   <ul class="sidebar-nav" id="sidebar-nav">
     <li class="nav-item">
-      <a class="nav-link collapsed" href="index.html">
+      <a
+        class="nav-link collapsed"
+        hx-post="/dashboard/res/dashboard"
+        hx-target="#main"
+      >
         <i class="bi bi-grid"></i>
         <span>Dashboard</span>
       </a>
@@ -15,7 +19,7 @@
         data-bs-toggle="collapse"
         href="#"
       >
-        <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span
+        <i class="bi bi-layout-text-window-reverse"></i><span>Data</span
         ><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul
@@ -24,8 +28,8 @@
         data-bs-parent="#sidebar-nav"
       >
         <li>
-          <a href="tables-general.html">
-            <i class="bi bi-circle"></i><span>General Tables</span>
+          <a hx-post="/dashboard/res/admin" hx-target="#main">
+            <i class="bi bi-circle"></i><span>Admin Manager</span>
           </a>
         </li>
         <li>
@@ -73,7 +77,8 @@
 
     <li class="nav-item">
       <a class="nav-link" href="#">
-        <i class="bi bi-bar-chart"></i><span>Charts</span>
+        <i class="bi bi-power"></i>
+        <span>Charts</span>
       </a>
     </li>
   </ul>

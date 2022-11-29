@@ -1,0 +1,59 @@
+<tr>
+  <td>
+    <div class="col-12 d-flex justify-content-center">
+      <div class="col-8">
+        <input
+          class="form-control"
+          type="text"
+          name="name"
+          placeholder="username"
+          hx-put="/dashboard/update-admin/<%- data.userID %> "
+          hx-include="closest tr"
+          hx-target="closest tr"
+          hx-trigger="[enterKey]"
+          hx-swap="outerHTML"
+          value="<%- data.name %> "
+        />
+      </div>
+    </div>
+  </td>
+  <td>
+    <div class="col-12 d-flex justify-content-center">
+      <div class="col-8">
+        <input
+          class="form-control"
+          type="password"
+          name="password"
+          placeholder="password"
+          hx-put="/dashboard/update-admin/<%- data.userID %> "
+          hx-include="closest tr"
+          hx-target="closest tr"
+          hx-trigger="[enterKey]"
+          hx-swap="outerHTML"
+          value="<%- data.password %>"
+        />
+      </div>
+    </div>
+  </td>
+  <td>
+    <div class="col-12 d-flex justify-content-center">
+      <button
+        class="btn btn-outline-success"
+        hx-put="/dashboard/update-admin/<%- data.userID %> "
+        hx-include="closest tr"
+        hx-swap="outerHTML"
+        hx-target="closest tr"
+      >
+        <i class="bi bi-sd-card"></i>
+      </button>
+      <button
+        class="btn mx-2 btn-danger"
+        hx-post="/dashboard/res/row-admin/<%- data.userID %> "
+        hx-target="closest tr"
+        hx-swap="outerHTML"
+      >
+        <i class="bi bi-trash"></i>
+      </button>
+    </div>
+  </td>
+</tr>

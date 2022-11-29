@@ -7,7 +7,19 @@ export class DefaultRouter extends base {
 
     const service = new DefaulService();
     this.route("/", {
-      get: [{ "/": service.render }],
+      get: [
+        { "/": service.render },
+        {
+          "/res/dashboard": (res) => {
+            res.render("layouts/dashboard.html");
+          },
+        },
+        {
+          "/res/admin": (res) => {
+            res.render("layouts/admin-man.html");
+          },
+        },
+      ],
     });
   }
 }

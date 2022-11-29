@@ -1,0 +1,23 @@
+<tr>
+  <td><%- item.name %></td>
+  <td><%- item.password %></td>
+  <td>
+    <div class="col-12 d-flex justify-content-center">
+      <button
+        class="btn btn-outline-success"
+        hx-post="/dashboard/res/edit-admin/<%- item.userID %> "
+        hx-target="closest tr"
+        hx-swap="outerHTML"
+      >
+        <i class="bi bi-pencil-square"></i>
+      </button>
+      <button
+        class="btn mx-2 btn-danger"
+        hx-delete="/dashboard/delete-admin/<%- item.userID %> "
+        hx-target="#tbody"
+      >
+        <i class="bi bi-trash"></i>
+      </button>
+    </div>
+  </td>
+</tr>

@@ -1,0 +1,38 @@
+<!-- <section class="section"> -->
+<!-- <div class="row"> -->
+<div class="col-lg-12">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Admin Manager</h5>
+      <div class="col-12">
+        <button
+          class="btn btn-primary"
+          hx-post="/dashboard/res/add-admin"
+          hx-target="#tbody"
+        >
+          <i class="bi bi-person-plus"></i> | tambah
+        </button>
+      </div>
+      <div class="col-12 text-center">
+        <div class="table-responsive">
+          <table class="mt-2 table table-bordered border-primary">
+            <thead>
+              <tr>
+                <th>username</th>
+                <th>password</th>
+                <th>aksi</th>
+              </tr>
+            </thead>
+            <tbody
+              id="tbody"
+              hx-post="/dashboard/res/table-admin"
+              hx-trigger="load"
+            ></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- </div> -->
+<!-- </section> -->
