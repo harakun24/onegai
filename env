@@ -1,6 +1,8 @@
 PORT = 8080
-MySQL_host    = 127.0.0.1
-MySQL_user    = root
-MySQL_pass    = 123
-MySQL_db      = example
-MySQL_storage = trying
+
+# db_database
+db_host     = 127.0.0.1
+db_user     = root
+db_pass     = 123
+db_database = example
+db_storage  = local@pub

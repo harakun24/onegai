@@ -5,32 +5,47 @@
     <div class="card-body">
       <h5 class="card-title">Admin Manager</h5>
       <div class="col-12 d-flex">
-        <button
-          class="btn btn-primary"
-          hx-post="/dashboard/res/add-admin"
-          hx-target="#tbody"
-          ;
-        >
-          <i class="bi bi-person-plus"></i> | tambah
-        </button>
-        <div class="form-group col-4 px-3">
-          <input
-            type="search"
-            name="name"
-            placeholder="cari admin..."
-            class="form-control"
-            hx-post="/dashboard/res/search-admin"
-            hx-trigger="keyup changed"
+        <div class="col-md-6 col-sm-8 d-flex">
+          <button
+            class="btn btn-primary"
+            hx-post="/dashboard/res/add-admin"
             hx-target="#tbody"
-          />
+            ;
+          >
+            <i class="bi bi-person-plus"></i>
+            tambah
+          </button>
+          <div class="form-group col-sm-6 col-md-8 px-1">
+            <input
+              type="search"
+              name="name"
+              placeholder="cari admin..."
+              class="form-control"
+              hx-post="/dashboard/res/search-admin"
+              hx-trigger="keyup changed"
+              hx-target="#tbody"
+            />
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-4 d-flex justify-content-end">
+          <button
+            class="btn btn-outline-danger"
+            hx-confirm="anda yakin ingin mengosongkan data?"
+            hx-delete="/dashboard/delete-admin-all"
+            hx-target="#tbody"
+          >
+            <i class="bi bi-trash"></i> hapus semua
+          </button>
         </div>
       </div>
       <div class="col-12 text-center">
         <div class="table-responsive">
-          <table class="mt-2 table table-bordered border-primary datatable">
-            <thead>
+          <table class="mt-4 table table-bordered border-primary datatable">
+            <thead class="thead-dark">
               <tr>
-                <th>username</th>
+                <th style="padding-top: 10px; padding-bottom: 10px">
+                  username
+                </th>
                 <th>password</th>
                 <th>aksi</th>
               </tr>

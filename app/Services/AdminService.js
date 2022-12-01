@@ -17,7 +17,6 @@ export class AdminService extends base {
     } catch (error) {
       console.log(error.message);
     }
-    console.log(base.baseUrl(res) + "/dashboard/res/table-admin");
     const response = await axios.post(
       base.baseUrl(res) + "/dashboard/res/table-admin"
     );
@@ -42,16 +41,12 @@ export class AdminService extends base {
   }
 
   async delete(res) {
-    try {
-      if (res.req.params.id)
-        await Admin.destroy({ where: { userID: res.req.params.id } });
-    } catch (error) {
-      console.log(error.message);
-    }
-    const response = await axios.post(
-      base.baseUrl(res) + "/dashboard/res/table-admin"
-    );
-    res.send(response.data);
+    if (res.req.params.id)
+      await deleting(res, { where: { userID: res.req.params.id } });
+    else res.redirect("/dashboard/res/table-admin");
+  }
+  async deleteAll(res) {
+    await deleting(res, { where: {}, truncate: true });
   }
 
   //micro views
@@ -75,7 +70,6 @@ export class AdminService extends base {
     const second = (
       await axios.post(base.baseUrl(res) + "/dashboard/res/table-admin")
     ).data;
-    console.log(first);
     res.send(`${first} ${second}`);
   }
   async res_edit(res) {
@@ -100,4 +94,16 @@ const findAll = async (res, option) => {
   res.render("components/table-admin.html", {
     list: await Admin.findAll(option),
   });
+};
+
+const deleting = async (res, option) => {
+  try {
+    await Admin.destroy(option);
+  } catch (error) {
+    console.log(error.message);
+  }
+  const response = await axios.post(
+    base.baseUrl(res) + "/dashboard/res/table-admin"
+  );
+  res.send(response.data);
 };

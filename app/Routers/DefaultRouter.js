@@ -1,6 +1,6 @@
 import base from "./BaseRouter.js";
 import { DefaulService } from "../Services/DefaultService.js";
-
+import AdminRouter from "./AdminRouter.js";
 export class DefaultRouter extends base {
   constructor() {
     super("default");
@@ -8,18 +8,13 @@ export class DefaultRouter extends base {
     const service = new DefaulService();
     this.route("/", {
       get: [
-        { "/": service.render },
         {
-          "/res/dashboard": (res) => {
-            res.render("layouts/dashboard.html");
-          },
-        },
-        {
-          "/res/admin": (res) => {
-            res.render("layouts/admin-man.html");
+          "/": (res) => {
+            res.redirect("/dashboard");
           },
         },
       ],
+      sub: [{ "/dashboard": AdminRouter.handler[1] }],
     });
   }
 }

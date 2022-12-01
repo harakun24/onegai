@@ -1,7 +1,7 @@
 import base from "./BaseRouter.js";
 import { AdminService } from "../Services/AdminService.js";
 
-export class AdminRouter extends base {
+class AdminRouter extends base {
   constructor() {
     super("admin");
 
@@ -24,7 +24,12 @@ export class AdminRouter extends base {
         { "/res/row-admin/:id": service.res_row },
       ],
       put: [{ "/update-admin/:id": service.update }],
-      delete: [{ "/delete-admin/:id": service.delete }],
+      delete: [
+        { "/delete-admin/:id": service.delete },
+        { "/delete-admin-all": service.deleteAll },
+      ],
     });
   }
 }
+
+export default new AdminRouter();

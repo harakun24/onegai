@@ -11,6 +11,6 @@ export default class BaseService {
     );
   };
   constructor(name) {
-    console.log(`   └service: ${name}`.yellow + " ✓".green);
+    console.log(`   └service: ${name}`.yellow);
   }
 }

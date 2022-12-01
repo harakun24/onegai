@@ -1,11 +1,11 @@
-import express from "express";
+import express, { Router } from "express";
 import "colors";
 
 export default class BaseRouter {
   #router;
   #endpoint;
   constructor(name) {
-    console.log(`\n └Router ${name}`.blue + " ✓".green);
+    console.log(`\n └Router ${name}`.blue);
     this.#router = new express.Router();
   }
   get handler() {
@@ -24,8 +24,13 @@ export default class BaseRouter {
         tmp.forEach((el) => {
           const k = Object.keys(el)[0];
           if (key == "sub") {
+            this.#router.use(k, el[k]);
           } else {
-            console.log(`   └${key.toUpperCase()} ${k}`.magenta);
+            console.log(
+              `   ${key.toUpperCase()}--`.magenta +
+                ` ${this.#endpoint}`.cyan +
+                `${k == this.#endpoint ? "" : k}`.green
+            );
             this.#router[key](k, (req, res) => {
               res.req = req;
               el[k](res);

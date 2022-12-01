@@ -28,7 +28,7 @@ export class ModelAdapter {
     console.log();
     for (const name in listModel) {
       listModel[name].connect(this.#driver);
-      console.log(` [`.gray + `___ ${name}___`.bgGray.black + `]`.gray);
+      console.log(`  @Model :${name}`.cyan);
       this.#models[name] = listModel[name];
     }
     assoc(this.#models);
