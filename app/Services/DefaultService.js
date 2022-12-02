@@ -5,7 +5,7 @@ export class DefaulService extends base {
   constructor() {
     super("default");
   }
-  async render(res) {
+  async render(req, res) {
     res.render("layouts/template");
   }
 }

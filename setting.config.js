@@ -4,7 +4,9 @@ import env from "dotenv";
 import ex from "express";
 // import compress from "compression";
 import ejs from "ejs";
+import session from "express-session";
 import "colors";
+import { faker } from "@faker-js/faker";
 
 env.config();
 
@@ -14,12 +16,18 @@ app.engine("html", ejs.renderFile);
 app.use(morgan("dev"));
 app.use(ex.json());
 app.use(ex.urlencoded({ extended: true }));
+app.use(
+  session({
+    secret: faker.internet.password(),
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 // app.use(compress());
 
 app.notFound = (cb) => {
   app.use((req, res, next) => {
-    res.req = req;
-    cb(res);
+    cb(req, res);
   });
 };
 app.static = (dest, src) => {

@@ -3,14 +3,12 @@ import "colors";
 
 export default class BaseService {
   static models = models;
-  static baseUrl = (res) => {
+  static baseUrl = (req) => {
     return (
-      res.req.protocol +
-      "://" +
-      res.req.get("host").replace("localhost", "127.0.0.1")
+      req.protocol + "://" + req.get("host").replace("localhost", "127.0.0.1")
     );
   };
   constructor(name) {
-    console.log(`   └service: ${name}`.yellow);
+    console.log(`   @service: ${name}`.yellow);
   }
 }

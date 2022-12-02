@@ -11,12 +11,14 @@ console.log("\nstart");
 export default async function (amount) {
   await adapter.driver.sync({ force: true });
   console.log("--building db--");
+  const arrData = [];
   const { Admin } = adapter.list;
   for (let i = 0; i < amount; i++) {
-    await Admin.create({
+    arrData.push({
       name: faker.internet.userName(),
       password: faker.internet.password(),
     });
   }
+  await Admin.bulkCreate(arrData);
   console.log("done!");
 }

@@ -22,6 +22,8 @@ class AdminRouter extends base {
         { "/res/add-admin": service.res_add },
         { "/res/edit-admin/:id": service.res_edit },
         { "/res/row-admin/:id": service.res_row },
+        { "/res/page-admin": service.res_page },
+        { "/res/page-goto/:page": service.res_goto },
       ],
       put: [{ "/update-admin/:id": service.update }],
       delete: [

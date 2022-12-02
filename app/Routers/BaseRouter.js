@@ -5,7 +5,7 @@ export default class BaseRouter {
   #router;
   #endpoint;
   constructor(name) {
-    console.log(`\n └Router ${name}`.blue);
+    console.log(`\n @Router ${name}`.green);
     this.#router = new express.Router();
   }
   get handler() {
@@ -32,8 +32,8 @@ export default class BaseRouter {
                 `${k == this.#endpoint ? "" : k}`.green
             );
             this.#router[key](k, (req, res) => {
-              res.req = req;
-              el[k](res);
+              // req = req;
+              el[k](req, res);
             });
           }
         });

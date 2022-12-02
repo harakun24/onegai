@@ -7,103 +7,125 @@ export class AdminService extends base {
   constructor() {
     super("admin");
   }
-  async render(res) {
+  async render(req, res) {
     res.render("layouts/template");
   }
   //data management
-  async create(res) {
+  async create(req, res) {
     try {
-      if (res.req.body) await Admin.create(res.req.body);
+      if (req.body) await Admin.create(req.body);
     } catch (error) {
       console.log(error.message);
     }
     const response = await axios.post(
-      base.baseUrl(res) + "/dashboard/res/table-admin"
+      base.baseUrl(req) + "/dashboard/res/table-admin"
     );
     res.send(response.data);
   }
 
-  async update(res) {
+  async update(req, res) {
     try {
-      if (res.req.body) {
-        await Admin.update(res.req.body, {
-          where: { userID: res.req.params.id },
+      if (req.body) {
+        await Admin.update(req.body, {
+          where: { userID: req.params.id },
         });
       }
     } catch (error) {
       console.log(error.message);
     }
     const response = await axios.post(
-      base.baseUrl(res) + `/dashboard/res/row-admin/${res.req.params.id}`
+      base.baseUrl(req) + `/dashboard/res/row-admin/${req.params.id}`
     );
     // console.log(response.data);
     res.send(response.data);
   }
 
-  async delete(res) {
-    if (res.req.params.id)
-      await deleting(res, { where: { userID: res.req.params.id } });
+  async delete(req, res) {
+    if (req.params.id)
+      await deleting(req, res, { where: { userID: req.params.id } });
     else res.redirect("/dashboard/res/table-admin");
   }
-  async deleteAll(res) {
-    await deleting(res, { where: {}, truncate: true });
+  async deleteAll(req, res) {
+    await deleting(req, res, { where: {}, truncate: true });
   }
 
   //micro views
-  async res_dashboard(res) {
+  async res_dashboard(req, res) {
     res.render("layouts/dashboard.html");
   }
-  async res_admin(res) {
-    res.render("layouts/admin-man.html");
+  async res_admin(req, res) {
+    req.session.search = "";
+    req.session.page = 0;
+    res.render("layouts/admin-man.html", { list: await Admin.findAll() });
   }
-  async res_table_show(res) {
-    findAll(res, { order: [["userID", "DESC"]] });
+  async res_table_show(req, res) {
+    findAll(req, res);
   }
-  async res_add_row(res) {
+  async res_add_row(req, res) {
     res.render("components/add-admin.html");
   }
-  async res_add(res) {
+  async res_add(req, res) {
     // const first = (await axios.post(url + "/dashboard/res/add-row-admin")).data;
     const first = (
-      await axios.post(base.baseUrl(res) + "/dashboard/res/add-row-admin")
+      await axios.post(base.baseUrl(req) + "/dashboard/res/add-row-admin")
     ).data;
     const second = (
-      await axios.post(base.baseUrl(res) + "/dashboard/res/table-admin")
+      await axios.post(base.baseUrl(req) + "/dashboard/res/table-admin")
     ).data;
     res.send(`${first} ${second}`);
   }
-  async res_edit(res) {
+  async res_edit(req, res) {
     res.render("components/edit-admin.html", {
-      data: (await Admin.findAll({ where: { userID: res.req.params.id } }))[0],
+      data: (await Admin.findAll({ where: { userID: req.params.id } }))[0],
     });
   }
-  async res_row(res) {
+  async res_row(req, res) {
     res.render("components/row-admin.html", {
-      item: (await Admin.findAll({ where: { userID: res.req.params.id } }))[0],
+      item: (await Admin.findAll({ where: { userID: req.params.id } }))[0],
     });
   }
-  async res_search(res) {
-    findAll(res, {
-      where: { name: { [Op.like]: `%${res.req.body.name}%` } },
-      order: [["userID", "DESC"]],
+  async res_search(req, res) {
+    req.session.search = req.body.name;
+    findAll(req, res);
+  }
+  async res_page(req, res) {
+    const total = await Admin.count();
+    res.render("components/pagination-admin.html", {
+      count: Math.ceil(total / 7),
     });
+  }
+  async res_goto(req, res) {
+    if (req.params.page) req.session.page = req.params.page - 0;
+    console.log({ search: req.session.search, page: req.session.page });
+    findAll(req, res);
   }
 }
 
-const findAll = async (res, option) => {
+const findAll = async (req, res) => {
+  const rawResult = await Admin.findAll({
+    where: {
+      name: {
+        [Op.like]: `%${req.session.search}%`,
+      },
+    },
+    limit: 5,
+    offset: (req.session.page || 0) * 5,
+    order: [["userID", "DESC"]],
+  });
+
   res.render("components/table-admin.html", {
-    list: await Admin.findAll(option),
+    list: rawResult,
   });
 };
 
-const deleting = async (res, option) => {
+const deleting = async (req, res, option) => {
   try {
     await Admin.destroy(option);
   } catch (error) {
     console.log(error.message);
   }
   const response = await axios.post(
-    base.baseUrl(res) + "/dashboard/res/table-admin"
+    base.baseUrl(req) + "/dashboard/res/table-admin"
   );
   res.send(response.data);
 };

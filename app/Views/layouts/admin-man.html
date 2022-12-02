@@ -54,8 +54,17 @@
               id="tbody"
               hx-post="/dashboard/res/table-admin"
               hx-trigger="load"
-            ></tbody>
+            >
+              <tr>
+                <td colspan="3">memuat data...</td>
+              </tr>
+            </tbody>
           </table>
+          <p
+            hx-post="/dashboard/res/page-admin"
+            hx-trigger="load"
+            hx-swap="outerHTML"
+          ></p>
         </div>
       </div>
     </div>

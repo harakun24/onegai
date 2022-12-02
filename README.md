@@ -69,7 +69,7 @@
       app.internalError = (res) => {
         res.send(`<h1>internal server error</h1>
          <p>${res.message}</p>
-         <p>${res.req.url}</p>`);
+         <p>${req.url}</p>`);
       };
       ```
 
@@ -344,7 +344,7 @@ app.internalError = (res) => {
   res.send(`
       <h1>internal server error</h1>
       <p>${res.message}</p>
-      <p>${res.req.url}</p>
+      <p>${req.url}</p>
   `);
 };
 ```
@@ -356,6 +356,6 @@ try {
   // TODO
 } catch (ex) {
   res.message = ex.message;
-  res.req.app.internalError(res);
+  req.app.internalError(res);
 }
 ```
