@@ -85,13 +85,19 @@ export class AdminService extends base {
     });
   }
   async res_search(req, res) {
-    req.session.search = req.body.name;
+    req.session.search = req.body.name || "";
     findAll(req, res);
   }
   async res_page(req, res) {
-    const total = await Admin.count();
+    const total = await Admin.count({
+      where: {
+        name: {
+          [Op.like]: `%${req.session.search}%`,
+        },
+      },
+    });
     res.render("components/pagination-admin.html", {
-      count: Math.ceil(total / 7),
+      count: Math.ceil(total / 5),
     });
   }
   async res_goto(req, res) {
@@ -105,7 +111,7 @@ const findAll = async (req, res) => {
   const rawResult = await Admin.findAll({
     where: {
       name: {
-        [Op.like]: `%${req.session.search}%`,
+        [Op.like]: `%${req.session.search || ""}%`,
       },
     },
     limit: 5,
@@ -124,8 +130,12 @@ const deleting = async (req, res, option) => {
   } catch (error) {
     console.log(error.message);
   }
+  req.session.search = "";
+  req.session.page = 0;
   const response = await axios.post(
     base.baseUrl(req) + "/dashboard/res/table-admin"
   );
+  console.log(base.baseUrl(req) + "/dashboard/res/table-admin");
   res.send(response.data);
+  // res.redirect("/dashboard/res/table-admin");
 };
