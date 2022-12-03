@@ -24,10 +24,24 @@
             ;
           >
             <i class="bi bi-person-plus"></i>
-            <span class="d-none d-md-inline-block"> tambah</span>
-          </button>
+            <span class="d-none d-md-inline-block"> tambah</span></button
+          >&nbsp;
+          <div class="pl-2">
+            <select
+              class="form-select"
+              name="limit"
+              hx-post="/dashboard/res/limit-admin"
+              hx-target="#tbody"
+              id=""
+            >
+              <option value="5">5 data</option>
+              <option value="10">10 data</option>
+              <option value="20">20 data</option>
+              <option value="50">50 data</option>
+            </select>
+          </div>
           <div
-            class="form-group col-sm-6 col-md-8 px-1"
+            class="form-group col-sm-6 col-md-5 px-1"
             hx-post="/dashboard/res/search-admin"
             hx-trigger="click"
             hx-target="#tbody"

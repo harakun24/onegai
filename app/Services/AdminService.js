@@ -51,6 +51,7 @@ export class AdminService extends base {
   async res_admin(req, res) {
     req.session.search = "";
     req.session.page = 0;
+    req.session.limit = 5;
     res.render("layouts/admin-man.html", {
       list: await Admin.findAll(),
     });
@@ -60,7 +61,10 @@ export class AdminService extends base {
   }
   async res_add(req, res) {
     res.render("components/admin/add-admin.html", {
-      list: await Admin.findAll({ limit: 5, order: [["userID", "DESC"]] }),
+      list: await Admin.findAll({
+        limit: req.session.limit,
+        order: [["userID", "DESC"]],
+      }),
     });
   }
   async res_edit(req, res) {
@@ -87,17 +91,22 @@ export class AdminService extends base {
       },
     });
     res.render("components/admin/pagination-admin.html", {
-      count: Math.ceil(total / 5),
+      count: Math.ceil(total / req.session.limit),
     });
   }
   async res_goto(req, res) {
     if (req.params.page) req.session.page = req.params.page - 0;
     findAll(req, res);
   }
+  async res_limit(req, res) {
+    req.session.limit = req.body.limit;
+    findAll(req, res);
+  }
 }
 
 const findAll = async (req, res) => {
   req.session.page = req.session.page ?? 0;
+  req.session.limit = req.session.limit ?? 5;
   req.session.search = req.session.search ?? "";
   const rawResult = await Admin.findAll({
     where: {
@@ -105,8 +114,8 @@ const findAll = async (req, res) => {
         [Op.like]: `%${req.session.search}%`,
       },
     },
-    limit: 5,
-    offset: req.session.page * 5,
+    limit: req.session.limit,
+    offset: req.session.page * req.session.limit,
     order: [["userID", "DESC"]],
   });
 
@@ -126,7 +135,7 @@ const deleting = async (req, res, option) => {
     Math.ceil(
       (await Admin.count({
         where: { name: { [Op.like]: `%${req.session.search}%` } },
-      })) / 5
+      })) / req.session.limit
     ) - 1;
   console.log({ tempPage, page: req.session.page });
   req.session.page = tempPage < req.session.page ? tempPage : req.session.page;
