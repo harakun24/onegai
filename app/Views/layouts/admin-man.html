@@ -15,14 +15,19 @@
             <i class="bi bi-person-plus"></i>
             <span class="d-none d-md-inline-block"> tambah</span>
           </button>
-          <div class="form-group col-sm-6 col-md-8 px-1">
+          <div
+            class="form-group col-sm-6 col-md-8 px-1"
+            hx-post="/dashboard/res/search-admin"
+            hx-trigger="click"
+            hx-target="#tbody"
+          >
             <input
               type="search"
               name="name"
               placeholder="cari admin..."
               class="form-control"
               hx-post="/dashboard/res/search-admin"
-              hx-trigger="keyup changed"
+              hx-trigger="keyup change"
               hx-target="#tbody"
             />
           </div>
