@@ -9,7 +9,7 @@ export class DefaultRouter extends base {
     this.route("/", {
       get: [
         {
-          "/": (res) => {
+          "/": (req, res) => {
             res.redirect("/dashboard");
           },
         },
