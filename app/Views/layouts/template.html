@@ -22,11 +22,18 @@
     <main id="main" class="main">
       <!-- End Page Title -->
 
-      <p
+      <div
+        justify-content-center
         hx-post="/dashboard/res/admin"
         hx-trigger="load"
         hx-swap="outerHTML"
-      ></p>
+      >
+        <div class="card">
+          <div class="card-body">
+            <img src="/assets/img/loading.gif" alt="" />
+          </div>
+        </div>
+      </div>
     </main>
     <!-- End #main -->
     <%- include("../partials/footer.html") %>
