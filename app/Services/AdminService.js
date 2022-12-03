@@ -17,10 +17,7 @@ export class AdminService extends base {
     } catch (error) {
       console.log(error.message);
     }
-    const response = await axios.post(
-      base.baseUrl(req) + "/dashboard/res/table-admin"
-    );
-    res.send(response.data);
+    findAll(req, res);
   }
 
   async update(req, res) {
@@ -33,11 +30,9 @@ export class AdminService extends base {
     } catch (error) {
       console.log(error.message);
     }
-    const response = await axios.post(
-      base.baseUrl(req) + `/dashboard/res/row-admin/${req.params.id}`
-    );
-    // console.log(response.data);
-    res.send(response.data);
+    res.render("components/admin/row-admin.html", {
+      item: (await Admin.findAll({ where: { userID: req.params.id } }))[0],
+    });
   }
 
   async delete(req, res) {
@@ -56,23 +51,17 @@ export class AdminService extends base {
   async res_admin(req, res) {
     req.session.search = "";
     req.session.page = 0;
-    res.render("layouts/admin-man.html", { list: await Admin.findAll() });
+    res.render("layouts/admin-man.html", {
+      list: await Admin.findAll(),
+    });
   }
   async res_table_show(req, res) {
     findAll(req, res);
   }
-  async res_add_row(req, res) {
-    res.render("components/admin/add-admin.html");
-  }
   async res_add(req, res) {
-    // const first = (await axios.post(url + "/dashboard/res/add-row-admin")).data;
-    const first = (
-      await axios.post(base.baseUrl(req) + "/dashboard/res/add-row-admin")
-    ).data;
-    const second = (
-      await axios.post(base.baseUrl(req) + "/dashboard/res/table-admin")
-    ).data;
-    res.send(`${first} ${second}`);
+    res.render("components/admin/add-admin.html", {
+      list: await Admin.findAll({ limit: 5, order: [["userID", "DESC"]] }),
+    });
   }
   async res_edit(req, res) {
     res.render("components/admin/edit-admin.html", {
@@ -103,20 +92,21 @@ export class AdminService extends base {
   }
   async res_goto(req, res) {
     if (req.params.page) req.session.page = req.params.page - 0;
-    console.log({ search: req.session.search, page: req.session.page });
     findAll(req, res);
   }
 }
 
 const findAll = async (req, res) => {
+  req.session.page = req.session.page ?? 0;
+  req.session.search = req.session.search ?? "";
   const rawResult = await Admin.findAll({
     where: {
       name: {
-        [Op.like]: `%${req.session.search || ""}%`,
+        [Op.like]: `%${req.session.search}%`,
       },
     },
     limit: 5,
-    offset: (req.session.page || 0) * 5,
+    offset: req.session.page * 5,
     order: [["userID", "DESC"]],
   });
 
@@ -131,12 +121,14 @@ const deleting = async (req, res, option) => {
   } catch (error) {
     console.log(error.message);
   }
-  req.session.search = "";
-  req.session.page = 0;
-  const response = await axios.post(
-    base.baseUrl(req) + "/dashboard/res/table-admin"
-  );
-  console.log(base.baseUrl(req) + "/dashboard/res/table-admin");
-  res.send(response.data);
-  // res.redirect("/dashboard/res/table-admin");
+  // req.session.search = "";
+  const tempPage =
+    Math.ceil(
+      (await Admin.count({
+        where: { name: { [Op.like]: `%${req.session.search}%` } },
+      })) / 5
+    ) - 1;
+  console.log({ tempPage, page: req.session.page });
+  req.session.page = tempPage < req.session.page ? tempPage : req.session.page;
+  findAll(req, res);
 };

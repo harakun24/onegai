@@ -1,49 +1,78 @@
-<tr>
-  <td>
-    <div class="col-12 d-flex justify-content-center">
-      <div class="col-8">
-        <input
-          class="form-control"
-          type="text"
-          name="name"
-          placeholder="username"
-        />
-      </div>
-    </div>
-  </td>
-  <td>
-    <div class="col-12 d-flex justify-content-center">
-      <div class="col-8">
-        <input
-          class="form-control"
-          type="password"
-          name="password"
-          placeholder="password"
-          hx-post="/dashboard/add-admin"
-          hx-include="closest tr"
-          hx-target="#tbody"
-          hx-trigger="[enterKey]"
-        />
-      </div>
-    </div>
-  </td>
-  <td>
-    <div class="col-12 d-flex justify-content-center">
-      <button
-        class="btn btn-outline-success"
-        hx-post="/dashboard/add-admin"
-        hx-include="closest tr"
-        hx-target="#tbody"
+<table class="mt-4 table table-bordered border-primary datatable">
+  <thead class="thead-dark">
+    <tr>
+      <th style="padding-top: 10px; padding-bottom: 10px">username</th>
+      <th>password</th>
+      <th>aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <div class="col-12 d-flex justify-content-center">
+          <div class="col-8">
+            <input
+              class="form-control"
+              type="text"
+              name="name"
+              placeholder="username"
+            />
+          </div>
+        </div>
+      </td>
+      <td>
+        <div class="col-12 d-flex justify-content-center">
+          <div class="col-8">
+            <input
+              class="form-control"
+              type="password"
+              name="password"
+              placeholder="password"
+              hx-post="/dashboard/add-admin"
+              hx-include="closest tr"
+              hx-target="#tbody"
+              hx-trigger="[enterKey]"
+            />
+          </div>
+        </div>
+      </td>
+      <td>
+        <div class="col-12 d-flex justify-content-center">
+          <button
+            class="btn btn-outline-success"
+            hx-post="/dashboard/add-admin"
+            hx-include="closest tr"
+            hx-target="#tbody"
+          >
+            <i class="bi bi-sd-card"></i>
+          </button>
+          <button
+            class="btn mx-2 btn-outline-danger"
+            hx-post="/dashboard/res/table-admin"
+            hx-target="#tbody"
+          >
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+      </td>
+    </tr>
+    <% if(locals.list && locals.list.length>0) { %>
+    <!--  -->
+
+    <% list.forEach(item=> {%>
+    <!-- <tr
+        hx-post="/dashboard/res/row-admin/<%- item.userID %> "
+        hx-trigger="load"
+        hx-swap="outerHTML"
       >
-        <i class="bi bi-sd-card"></i>
-      </button>
-      <button
-        class="btn mx-2 btn-outline-danger"
-        hx-post="/dashboard/res/table-admin"
-        hx-target="#tbody"
-      >
-        <i class="bi bi-x-lg"></i>
-      </button>
-    </div>
-  </td>
-</tr>
+        <td colspan="3">memuat...</td>
+      </tr>
+      -->
+    <%- include("row-admin.html",{item}) %> <%})%> <% } else{ %>
+    <!--  -->
+    <% } %>
+  </tbody>
+</table>
+<div class="col-12 table-responsive">
+  <p hx-post="/dashboard/res/page-admin" hx-trigger="load"></p>
+</div>
