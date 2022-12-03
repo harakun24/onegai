@@ -62,7 +62,7 @@ export class AdminService extends base {
     findAll(req, res);
   }
   async res_add_row(req, res) {
-    res.render("components/add-admin.html");
+    res.render("components/admin/add-admin.html");
   }
   async res_add(req, res) {
     // const first = (await axios.post(url + "/dashboard/res/add-row-admin")).data;
@@ -75,17 +75,18 @@ export class AdminService extends base {
     res.send(`${first} ${second}`);
   }
   async res_edit(req, res) {
-    res.render("components/edit-admin.html", {
+    res.render("components/admin/edit-admin.html", {
       data: (await Admin.findAll({ where: { userID: req.params.id } }))[0],
     });
   }
   async res_row(req, res) {
-    res.render("components/row-admin.html", {
+    res.render("components/admin/row-admin.html", {
       item: (await Admin.findAll({ where: { userID: req.params.id } }))[0],
     });
   }
   async res_search(req, res) {
     req.session.search = req.body.name || "";
+    req.session.page = 0;
     findAll(req, res);
   }
   async res_page(req, res) {
@@ -96,7 +97,7 @@ export class AdminService extends base {
         },
       },
     });
-    res.render("components/pagination-admin.html", {
+    res.render("components/admin/pagination-admin.html", {
       count: Math.ceil(total / 5),
     });
   }
@@ -119,7 +120,7 @@ const findAll = async (req, res) => {
     order: [["userID", "DESC"]],
   });
 
-  res.render("components/table-admin.html", {
+  res.render("components/admin/table-admin.html", {
     list: rawResult,
   });
 };
