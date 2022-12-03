@@ -1,18 +1,32 @@
-<% if(locals.list && locals.list.length>0) { %>
-<!--  -->
+<table class="mt-4 table table-bordered border-primary datatable">
+  <thead class="thead-dark">
+    <tr>
+      <th style="padding-top: 10px; padding-bottom: 10px">username</th>
+      <th>password</th>
+      <th>aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if(locals.list && locals.list.length>0) { %>
+    <!--  -->
 
-<% list.forEach(item=> {%>
-<!-- <tr
-  hx-post="/dashboard/res/row-admin/<%- item.userID %> "
-  hx-trigger="load"
-  hx-swap="outerHTML"
->
-  <td colspan="3">memuat...</td>
-</tr>
--->
-<%- include("row-admin.html",{item}) %> <%})%> <% } else{ %>
-<!--  -->
-<tr>
-  <td colspan="3">data kosong</td>
-</tr>
-<% } %>
+    <% list.forEach(item=> {%>
+    <!-- <tr
+        hx-post="/dashboard/res/row-admin/<%- item.userID %> "
+        hx-trigger="load"
+        hx-swap="outerHTML"
+      >
+        <td colspan="3">memuat...</td>
+      </tr>
+      -->
+    <%- include("row-admin.html",{item}) %> <%})%> <% } else{ %>
+    <!--  -->
+    <tr>
+      <td colspan="3">data kosong</td>
+    </tr>
+    <% } %>
+  </tbody>
+</table>
+<div class="col-12 table-responsive">
+  <p hx-post="/dashboard/res/page-admin" hx-trigger="load"></p>
+</div>

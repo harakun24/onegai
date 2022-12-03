@@ -40,7 +40,12 @@
         </div>
       </div>
       <div class="col-12 text-center">
-        <div class="table-responsive">
+        <div
+          class="table-responsive"
+          id="tbody"
+          hx-post="/dashboard/res/table-admin"
+          hx-trigger="load"
+        >
           <table class="mt-4 table table-bordered border-primary datatable">
             <thead class="thead-dark">
               <tr>
