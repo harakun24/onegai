@@ -49,7 +49,6 @@ export class AdminService extends base {
     res.render("layouts/dashboard.html");
   }
   async res_admin(req, res) {
-    console.log({ thi: this });
     req.session.search = "";
     req.session.page = 0;
     req.session.limit = 5;
@@ -71,6 +70,13 @@ export class AdminService extends base {
         limit: req.session.limit,
         offset: req.session.page * req.session.limit,
         order: [["userID", "DESC"]],
+      }),
+      count: await Admin.count({
+        where: {
+          name: {
+            [Op.like]: `%${req.session.search}%`,
+          },
+        },
       }),
     });
   }

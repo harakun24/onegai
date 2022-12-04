@@ -10,7 +10,7 @@
           hx-put="/dashboard/update-admin/<%- data.userID %> "
           hx-include="closest tr"
           hx-target="closest tr"
-          hx-trigger="[enterKey]"
+          hx-trigger="keyup[enterKey]"
           hx-swap="outerHTML"
           value="<%- data.name %>"
         />
@@ -28,7 +28,7 @@
           hx-put="/dashboard/update-admin/<%- data.userID %> "
           hx-include="closest tr"
           hx-target="closest tr"
-          hx-trigger="[enterKey]"
+          hx-trigger="keyup[enterKey]"
           hx-swap="outerHTML"
           value="<%- data.password %>"
         />
