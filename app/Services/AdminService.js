@@ -37,7 +37,8 @@ export class AdminService extends base {
   async delete(req, res) {
     if (req.params.id)
       await deleting(req, res, { where: { userID: req.params.id } });
-    else res.redirect("/dashboard/-table-admin");
+    else this.res_table_show(req, res);
+    // else res.redirect("/dashboard/-table-admin");
   }
   async deleteAll(req, res) {
     await deleting(req, res, { where: {}, truncate: true });
@@ -48,6 +49,7 @@ export class AdminService extends base {
     res.render("layouts/dashboard.html");
   }
   async res_admin(req, res) {
+    console.log({ thi: this });
     req.session.search = "";
     req.session.page = 0;
     req.session.limit = 5;
@@ -86,18 +88,6 @@ export class AdminService extends base {
     req.session.search = req.body.name || "";
     req.session.page = 0;
     findAll(req, res);
-  }
-  async res_page(req, res) {
-    const total = await Admin.count({
-      where: {
-        name: {
-          [Op.like]: `%${req.session.search}%`,
-        },
-      },
-    });
-    res.render("components/admin/pagination-admin.html", {
-      count: Math.ceil(total / req.session.limit),
-    });
   }
   async res_goto(req, res) {
     if (req.params.page) req.session.page = req.params.page - 0;

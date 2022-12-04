@@ -5,16 +5,22 @@ import ex from "express";
 // import compress from "compression";
 import ejs from "ejs";
 import session from "express-session";
-import "colors";
 import { faker } from "@faker-js/faker";
+import helmet from "helmet";
+import "colors";
 
 env.config();
 
 const app = new ex();
 
 app.engine("html", ejs.renderFile);
-app.use(morgan("dev"));
+app.use(
+  morgan("dev", {
+    skip: (req, res) => req.originalUrl.match(/\/assets*/g),
+  })
+);
 app.use(ex.json());
+app.use(helmet({ contentSecurityPolicy: false }));
 app.use(ex.urlencoded({ extended: true }));
 app.use(
   session({

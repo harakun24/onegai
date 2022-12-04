@@ -13,8 +13,8 @@ export default class BaseRouter {
   route(ep, routes) {
     this.#endpoint = ep;
     console.log(`\n  @Route  ${ep}`.green);
-    let { get, put, post, views, sub } = routes;
-    // console.log([...routes.post, ...routes.views]);
+    let { get, put, post, swap, sub } = routes;
+    // console.log([...routes.post, ...routes.swap]);
     const del = routes.delete;
 
     const match = (temp) => {
@@ -45,6 +45,6 @@ export default class BaseRouter {
     match({ put });
     match({ delete: del });
     match({ sub });
-    match({ post: views });
+    match({ post: swap });
   }
 }
