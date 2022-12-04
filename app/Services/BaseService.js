@@ -9,6 +9,6 @@ export default class BaseService {
     );
   };
   constructor(name) {
-    console.log(`   @service: ${name}`.yellow);
+    console.log(`\n  @service: ${name}`.yellow);
   }
 }

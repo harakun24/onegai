@@ -12,7 +12,7 @@
 
     <% list.forEach(item=> {%>
     <!-- <tr
-        hx-post="/dashboard/res/row-admin/<%- item.userID %> "
+        hx-post="/dashboard/-row-admin/<%- item.userID %> "
         hx-trigger="load"
         hx-swap="outerHTML"
       >
@@ -28,5 +28,6 @@
   </tbody>
 </table>
 <div class="col-12 table-responsive">
-  <p hx-post="/dashboard/res/page-admin" hx-trigger="load"></p>
+  <!-- <p hx-post="/dashboard/-page-admin" hx-trigger="load"></p> -->
+  <%- include("pagination-admin.html",{count}) %>
 </div>

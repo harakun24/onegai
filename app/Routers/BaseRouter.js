@@ -4,8 +4,7 @@ import "colors";
 export default class BaseRouter {
   #router;
   #endpoint;
-  constructor(name) {
-    console.log(`\n @Router ${name}`.green);
+  constructor() {
     this.#router = new express.Router();
   }
   get handler() {
@@ -13,7 +12,9 @@ export default class BaseRouter {
   }
   route(ep, routes) {
     this.#endpoint = ep;
-    const { get, post, put, sub } = routes;
+    console.log(`\n  @Route  ${ep}`.green);
+    let { get, put, post, views, sub } = routes;
+    // console.log([...routes.post, ...routes.views]);
     const del = routes.delete;
 
     const match = (temp) => {
@@ -27,8 +28,8 @@ export default class BaseRouter {
             this.#router.use(k, el[k]);
           } else {
             console.log(
-              `   ${key.toUpperCase()}--`.magenta +
-                ` ${this.#endpoint}`.cyan +
+              `   ${key.toUpperCase()}--\t`.magenta +
+                // ` ${this.#endpoint}`.cyan +
                 `${k == this.#endpoint ? "" : k}`.green
             );
             this.#router[key](k, (req, res) => {
@@ -44,5 +45,6 @@ export default class BaseRouter {
     match({ put });
     match({ delete: del });
     match({ sub });
+    match({ post: views });
   }
 }

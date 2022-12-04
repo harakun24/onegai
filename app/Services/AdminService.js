@@ -1,5 +1,4 @@
 import base from "./BaseService.js";
-import axios from "axios";
 import { Op } from "sequelize";
 
 const { Admin } = base.models;
@@ -38,7 +37,7 @@ export class AdminService extends base {
   async delete(req, res) {
     if (req.params.id)
       await deleting(req, res, { where: { userID: req.params.id } });
-    else res.redirect("/dashboard/res/table-admin");
+    else res.redirect("/dashboard/-table-admin");
   }
   async deleteAll(req, res) {
     await deleting(req, res, { where: {}, truncate: true });
@@ -62,7 +61,13 @@ export class AdminService extends base {
   async res_add(req, res) {
     res.render("components/admin/add-admin.html", {
       list: await Admin.findAll({
+        where: {
+          name: {
+            [Op.like]: `%${req.session.search}%`,
+          },
+        },
         limit: req.session.limit,
+        offset: req.session.page * req.session.limit,
         order: [["userID", "DESC"]],
       }),
     });
@@ -100,6 +105,8 @@ export class AdminService extends base {
   }
   async res_limit(req, res) {
     req.session.limit = req.body.limit;
+    req.session.page = 0;
+
     findAll(req, res);
   }
 }
@@ -108,6 +115,14 @@ const findAll = async (req, res) => {
   req.session.page = req.session.page ?? 0;
   req.session.limit = req.session.limit ?? 5;
   req.session.search = req.session.search ?? "";
+
+  const count = await Admin.count({
+    where: {
+      name: {
+        [Op.like]: `%${req.session.search}%`,
+      },
+    },
+  });
   const rawResult = await Admin.findAll({
     where: {
       name: {
@@ -121,6 +136,7 @@ const findAll = async (req, res) => {
 
   res.render("components/admin/table-admin.html", {
     list: rawResult,
+    count: Math.ceil(count / req.session.limit),
   });
 };
 

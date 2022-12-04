@@ -6,7 +6,7 @@
       <h5 class="card-title">
         Admin Manager &nbsp;
         <button
-          hx-post="/dashboard/res/admin"
+          hx-post="/dashboard/-admin"
           hx-trigger="click"
           hx-swap="outerHTML"
           hx-target="#admin"
@@ -19,7 +19,7 @@
         <div class="col-md-6 col-sm-8 d-flex">
           <button
             class="btn btn-primary"
-            hx-post="/dashboard/res/add-admin"
+            hx-post="/dashboard/-add-admin"
             hx-target="#tbody"
             ;
           >
@@ -30,7 +30,7 @@
             <select
               class="form-select"
               name="limit"
-              hx-post="/dashboard/res/limit-admin"
+              hx-post="/dashboard/-limit-admin"
               hx-target="#tbody"
               id=""
             >
@@ -42,7 +42,7 @@
           </div>
           <div
             class="form-group col-sm-6 col-md-5 px-1"
-            hx-post="/dashboard/res/search-admin"
+            hx-post="/dashboard/-search-admin"
             hx-trigger="click"
             hx-target="#tbody"
           >
@@ -51,7 +51,7 @@
               name="name"
               placeholder="cari admin..."
               class="form-control"
-              hx-post="/dashboard/res/search-admin"
+              hx-post="/dashboard/-search-admin"
               hx-trigger="keyup change"
               hx-target="#tbody"
             />
@@ -73,7 +73,7 @@
         <div
           class="table-responsive"
           id="tbody"
-          hx-post="/dashboard/res/table-admin"
+          hx-post="/dashboard/-table-admin"
           hx-trigger="load"
         >
           <table class="mt-4 table table-bordered border-primary datatable">
@@ -88,7 +88,7 @@
             </thead>
             <tbody
               id="tbody"
-              hx-post="/dashboard/res/table-admin"
+              hx-post="/dashboard/-table-admin"
               hx-trigger="load"
             >
               <tr>
@@ -97,7 +97,7 @@
             </tbody>
           </table>
           <div class="col-12 table-responsive">
-            <p hx-post="/dashboard/res/page-admin" hx-trigger="load"></p>
+            <p hx-post="/dashboard/-page-admin" hx-trigger="load"></p>
           </div>
         </div>
       </div>

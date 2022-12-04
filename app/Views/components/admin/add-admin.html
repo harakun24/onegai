@@ -49,7 +49,7 @@
           </button>
           <button
             class="btn mx-2 btn-outline-danger"
-            hx-post="/dashboard/res/table-admin"
+            hx-post="/dashboard/-table-admin"
             hx-target="#tbody"
           >
             <i class="bi bi-x-lg"></i>
@@ -62,7 +62,7 @@
 
     <% list.forEach(item=> {%>
     <!-- <tr
-        hx-post="/dashboard/res/row-admin/<%- item.userID %> "
+        hx-post="/dashboard/-row-admin/<%- item.userID %> "
         hx-trigger="load"
         hx-swap="outerHTML"
       >
@@ -75,5 +75,5 @@
   </tbody>
 </table>
 <div class="col-12 table-responsive">
-  <p hx-post="/dashboard/res/page-admin" hx-trigger="load"></p>
+  <p hx-post="/dashboard/-page-admin" hx-trigger="load"></p>
 </div>
