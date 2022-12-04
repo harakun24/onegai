@@ -259,7 +259,13 @@ app.use("/new_url", sample.handler[1]);
 - as subroute of router
 
 ```js
-sub: [{ "/endpoint": sample.handler[1] }];
+...
+sub: [
+  //explicit
+  { "/endpoint": sample.handler[1] },
+  //or
+  { [sample.handler[0]]: sample.handler[1] },
+];
 ```
 
 ---
