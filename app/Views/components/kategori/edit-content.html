@@ -4,7 +4,7 @@
       <div class="col-8">#<%- data.id_kategori %></div>
     </div>
   </td>
-  <td>
+  <td class="col-6">
     <div class="col-12 d-flex justify-content-center">
       <div class="col-8">
         <input
@@ -15,7 +15,7 @@
           hx-put="/dashboard/kategori/update-kategori/<%- data.id_kategori %> "
           hx-include="closest tr"
           hx-target="closest tr"
-          hx-trigger="keyup[enterKey]"
+          hx-trigger="[enterKey]"
           hx-swap="outerHTML"
           value="<%- data.nama_kategori %>"
         />
