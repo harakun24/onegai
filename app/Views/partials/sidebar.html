@@ -5,6 +5,7 @@
         class="nav-link collapsed"
         hx-post="/dashboard/-dashboard"
         hx-target="#main"
+        hx-push-url="true"
       >
         <i class="bi bi-grid"></i>
         <span>Dashboard</span>
@@ -28,13 +29,13 @@
         data-bs-parent="#sidebar-nav"
       >
         <li>
-          <a hx-post="/dashboard/-admin" hx-target="#main">
+          <a hx-post="/dashboard/-admin" hx-target="#main" hx-push-url="true">
             <i class="bi bi-circle"></i><span>Admin Manager</span>
           </a>
         </li>
         <li>
-          <a href="tables-data.html">
-            <i class="bi bi-circle"></i><span>Data Tables</span>
+          <a hx-post="/dashboard/kategori" hx-target="#main" hx-push-url="true">
+            <i class="bi bi-circle"></i><span>Kategori</span>
           </a>
         </li>
       </ul>

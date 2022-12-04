@@ -19,7 +19,7 @@
         <td colspan="3">memuat...</td>
       </tr>
       -->
-    <%- include("row-admin.html",{item}) %> <%})%> <% } else{ %>
+    <%- include("row-content.html",{item}) %> <%})%> <% } else{ %>
     <!--  -->
     <tr>
       <td colspan="3">data kosong</td>
@@ -29,5 +29,5 @@
 </table>
 <div class="col-12 table-responsive">
   <!-- <p hx-post="/dashboard/-page-admin" hx-trigger="load"></p> -->
-  <%- include("pagination-admin.html",{count}) %>
+  <%- include("pagination-content.html",{count}) %>
 </div>

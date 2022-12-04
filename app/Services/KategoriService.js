@@ -1,18 +1,23 @@
 import base from "./BaseService.js";
 import { Op } from "sequelize";
 
-const { Admin } = base.models;
-export class AdminService extends base {
+const { Kategori } = base.models;
+export class KategoriService extends base {
   constructor() {
-    super("admin");
+    super("kategori");
   }
   async render(req, res) {
-    res.render("layouts/template");
+    req.session.search = "";
+    req.session.page = 0;
+    req.session.limit = 5;
+    res.render("layouts/kategori-man.html", {
+      list: await Kategori.findAll(),
+    });
   }
   //data management
   async create(req, res) {
     try {
-      if (req.body) await Admin.create(req.body);
+      if (req.body) await Kategori.create(req.body);
     } catch (error) {
       console.log(error.message);
     }
@@ -22,21 +27,23 @@ export class AdminService extends base {
   async update(req, res) {
     try {
       if (req.body) {
-        await Admin.update(req.body, {
-          where: { userID: req.params.id },
+        await Kategori.update(req.body, {
+          where: { id_kategori: req.params.id },
         });
       }
     } catch (error) {
       console.log(error.message);
     }
-    res.render("components/admin/row-content.html", {
-      item: (await Admin.findAll({ where: { userID: req.params.id } }))[0],
+    res.render("components/kategori/row-content.html", {
+      item: (
+        await Kategori.findAll({ where: { id_kategori: req.params.id } })
+      )[0],
     });
   }
 
   async delete(req, res) {
     if (req.params.id)
-      await deleting(req, res, { where: { userID: req.params.id } });
+      await deleting(req, res, { where: { id_kategori: req.params.id } });
     else this.res_table_show(req, res);
     // else res.redirect("/dashboard/-table-admin");
   }
@@ -45,35 +52,25 @@ export class AdminService extends base {
   }
 
   //micro views
-  async res_dashboard(req, res) {
-    res.render("layouts/dashboard.html");
-  }
-  async res_admin(req, res) {
-    req.session.search = "";
-    req.session.page = 0;
-    req.session.limit = 5;
-    res.render("layouts/admin-man.html", {
-      list: await Admin.findAll(),
-    });
-  }
+
   async res_table_show(req, res) {
     findAll(req, res);
   }
   async res_add(req, res) {
-    res.render("components/admin/add-content.html", {
-      list: await Admin.findAll({
+    res.render("components/kategori/add-content.html", {
+      list: await Kategori.findAll({
         where: {
-          name: {
+          nama_kategori: {
             [Op.like]: `%${req.session.search}%`,
           },
         },
         limit: req.session.limit,
         offset: req.session.page * req.session.limit,
-        order: [["userID", "DESC"]],
+        order: [["id_kategori", "DESC"]],
       }),
-      count: await Admin.count({
+      count: await Kategori.count({
         where: {
-          name: {
+          nama_kategori: {
             [Op.like]: `%${req.session.search}%`,
           },
         },
@@ -81,13 +78,17 @@ export class AdminService extends base {
     });
   }
   async res_edit(req, res) {
-    res.render("components/admin/edit-content.html", {
-      data: (await Admin.findAll({ where: { userID: req.params.id } }))[0],
+    res.render("components/kategori/edit-content.html", {
+      data: (
+        await Kategori.findAll({ where: { id_kategori: req.params.id } })
+      )[0],
     });
   }
   async res_row(req, res) {
-    res.render("components/admin/row-content.html", {
-      item: (await Admin.findAll({ where: { userID: req.params.id } }))[0],
+    res.render("components/kategori/row-content.html", {
+      item: (
+        await Kategori.findAll({ where: { id_kategori: req.params.id } })
+      )[0],
     });
   }
   async res_search(req, res) {
@@ -112,25 +113,25 @@ const findAll = async (req, res) => {
   req.session.limit = req.session.limit ?? 5;
   req.session.search = req.session.search ?? "";
 
-  const count = await Admin.count({
+  const count = await Kategori.count({
     where: {
-      name: {
+      nama_kategori: {
         [Op.like]: `%${req.session.search}%`,
       },
     },
   });
-  const rawResult = await Admin.findAll({
+  const rawResult = await Kategori.findAll({
     where: {
-      name: {
+      nama_kategori: {
         [Op.like]: `%${req.session.search}%`,
       },
     },
     limit: req.session.limit,
     offset: req.session.page * req.session.limit,
-    order: [["userID", "DESC"]],
+    order: [["id_kategori", "DESC"]],
   });
 
-  res.render("components/admin/table-content.html", {
+  res.render("components/kategori/table-content.html", {
     list: rawResult,
     count: Math.ceil(count / req.session.limit),
   });
@@ -138,15 +139,15 @@ const findAll = async (req, res) => {
 
 const deleting = async (req, res, option) => {
   try {
-    await Admin.destroy(option);
+    await Kategori.destroy(option);
   } catch (error) {
     console.log(error.message);
   }
   // req.session.search = "";
   const tempPage =
     Math.ceil(
-      (await Admin.count({
-        where: { name: { [Op.like]: `%${req.session.search}%` } },
+      (await Kategori.count({
+        where: { nama_kategori: { [Op.like]: `%${req.session.search}%` } },
       })) / req.session.limit
     ) - 1;
   req.session.page = tempPage < req.session.page ? tempPage : req.session.page;

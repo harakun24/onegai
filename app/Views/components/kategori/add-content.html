@@ -1,8 +1,8 @@
 <table class="mt-4 table table-bordered border-primary datatable">
   <thead class="thead-dark">
     <tr>
-      <th style="padding-top: 10px; padding-bottom: 10px">username</th>
-      <th>password</th>
+      <th style="padding-top: 10px; padding-bottom: 10px">id</th>
+      <th>kategori</th>
       <th>aksi</th>
     </tr>
   </thead>
@@ -11,12 +11,7 @@
       <td>
         <div class="col-12 d-flex justify-content-center">
           <div class="col-8">
-            <input
-              class="form-control"
-              type="text"
-              name="name"
-              placeholder="username"
-            />
+            <b>#[new]</b>
           </div>
         </div>
       </td>
@@ -25,11 +20,11 @@
           <div class="col-8">
             <input
               class="form-control"
-              type="password"
-              name="password"
-              placeholder="password"
+              type="text"
+              name="nama_kategori"
+              placeholder="kategori"
               required="required"
-              hx-post="/dashboard/add-admin"
+              hx-post="/dashboard/kategori/add-kategori"
               hx-include="closest tr"
               hx-target="#tbody"
               hx-trigger="keyup[enterKey]"
@@ -41,7 +36,7 @@
         <div class="col-12 d-flex justify-content-center">
           <button
             class="btn btn-outline-success"
-            hx-post="/dashboard/add-admin"
+            hx-post="/dashboard/kategori/add-kategori"
             hx-include="closest tr"
             hx-target="#tbody"
           >
@@ -49,7 +44,7 @@
           </button>
           <button
             class="btn mx-2 btn-outline-danger"
-            hx-post="/dashboard/-table-admin"
+            hx-post="/dashboard/kategori/-table-kategori"
             hx-target="#tbody"
           >
             <i class="bi bi-x-lg"></i>
@@ -61,19 +56,12 @@
     <!--  -->
 
     <% list.forEach(item=> {%>
-    <!-- <tr
-        hx-post="/dashboard/-row-admin/<%- item.userID %> "
-        hx-trigger="load"
-        hx-swap="outerHTML"
-      >
-        <td colspan="3">memuat...</td>
-      </tr>
-      -->
-    <%- include("row-admin.html",{item}) %> <%})%> <% } else{ %>
+    <!--  -->
+    <%- include("row-content.html",{item}) %> <%})%> <% } else{ %>
     <!--  -->
     <% } %>
   </tbody>
 </table>
 <div class="col-12 table-responsive">
-  <%- include("pagination-admin.html",{count}) %>
+  <%- include("pagination-content.html",{count}) %>
 </div>
