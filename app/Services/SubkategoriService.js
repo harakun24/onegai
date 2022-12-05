@@ -25,7 +25,8 @@ export class SubkategoriService extends base {
   //data management
   async create(req, res) {
     try {
-      if (req.body) await Kategori.create(req.body);
+      if (req.body)
+        await Subkategori.create({ ...req.body, fk_kategori: req.session.kat });
     } catch (error) {
       console.log(error.message);
     }
@@ -35,8 +36,8 @@ export class SubkategoriService extends base {
   async update(req, res) {
     try {
       if (req.body) {
-        await Kategori.update(req.body, {
-          where: { id_kategori: req.params.id },
+        await Subkategori.update(req.body, {
+          where: { id_sub: req.params.id },
         });
       }
     } catch (error) {
@@ -44,14 +45,14 @@ export class SubkategoriService extends base {
     }
     res.render("components/subkategori/row-content.html", {
       item: (
-        await Kategori.findAll({ where: { id_kategori: req.params.id } })
+        await Subkategori.findAll({ where: { id_sub: req.params.id } })
       )[0],
     });
   }
 
   async delete(req, res) {
     if (req.params.id)
-      await deleting(req, res, { where: { id_kategori: req.params.id } });
+      await deleting(req, res, { where: { id_sub: req.params.id } });
     else this.res_table_show(req, res);
     // else res.redirect("/dashboard/-table-admin");
   }
@@ -70,21 +71,24 @@ export class SubkategoriService extends base {
   }
   async res_add(req, res) {
     res.render("components/subkategori/add-content.html", {
-      list: await Kategori.findAll({
+      list: await Subkategori.findAll({
         where: {
-          nama_kategori: {
+          nama_sub: {
             [Op.like]: `%${req.session.search}%`,
           },
+          fk_kategori: req.session.kat,
         },
         limit: req.session.limit,
         offset: req.session.page * req.session.limit,
-        order: [["id_kategori", "DESC"]],
+        order: [["id_sub", "DESC"]],
       }),
-      count: await Kategori.count({
+      current: req.session.page,
+      count: await Subkategori.count({
         where: {
-          nama_kategori: {
+          nama_sub: {
             [Op.like]: `%${req.session.search}%`,
           },
+          fk_kategori: req.session.kat,
         },
       }),
     });
@@ -92,14 +96,14 @@ export class SubkategoriService extends base {
   async res_edit(req, res) {
     res.render("components/subkategori/edit-content.html", {
       data: (
-        await Kategori.findAll({ where: { id_kategori: req.params.id } })
+        await Subkategori.findAll({ where: { id_sub: req.params.id } })
       )[0],
     });
   }
   async res_row(req, res) {
     res.render("components/subkategori/row-content.html", {
       item: (
-        await Kategori.findAll({ where: { id_kategori: req.params.id } })
+        await Subkategori.findAll({ where: { id_sub: req.params.id } })
       )[0],
     });
   }
@@ -118,13 +122,25 @@ export class SubkategoriService extends base {
 
     findAll(req, res);
   }
+  async switch(req, res) {
+    req.session.kat = req.body.kategori ?? req.session.kat;
+    findAll(req, res);
+  }
 }
 
 const findAll = async (req, res) => {
   req.session.page = req.session.page ?? 0;
   req.session.limit = req.session.limit ?? 5;
   req.session.search = req.session.search ?? "";
-
+  req.session.kat =
+    req.session.kat ??
+    (
+      await Kategori.findAll({
+        limit: 1,
+        raw: true,
+        attributes: ["id_kategori"],
+      })
+    )[0].id_kategori;
   const count = await Subkategori.count({
     where: {
       nama_sub: {

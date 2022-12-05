@@ -17,6 +17,7 @@ class SubkategoriRouter extends base {
       // micro views
       components: [
         { "/-kategori": service.res_kategori },
+        { "/-switch": service.switch },
         { "/-table-subkategori": service.res_table_show },
         { "/-search-subkategori/": service.res_search },
         { "/-add-subkategori": service.res_add },

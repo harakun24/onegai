@@ -2,7 +2,7 @@
   <thead class="thead-dark">
     <tr>
       <th style="padding-top: 10px; padding-bottom: 10px">id</th>
-      <th>kategori</th>
+      <th>subkategori</th>
       <th>aksi</th>
     </tr>
   </thead>
@@ -21,10 +21,10 @@
             <input
               class="form-control"
               type="text"
-              name="nama_kategori"
-              placeholder="kategori"
+              name="nama_sub"
+              placeholder="subkategori"
               required="required"
-              hx-post="/dashboard/kategori/add-kategori"
+              hx-post="/dashboard/subkategori/add-subkategori"
               hx-include="closest tr"
               hx-target="#tbody"
               hx-trigger="[enterKey]"
@@ -36,7 +36,7 @@
         <div class="col-12 d-flex justify-content-center">
           <button
             class="btn btn-outline-success"
-            hx-post="/dashboard/kategori/add-kategori"
+            hx-post="/dashboard/subkategori/add-subkategori"
             hx-include="closest tr"
             hx-target="#tbody"
           >
@@ -44,7 +44,7 @@
           </button>
           <button
             class="btn mx-2 btn-outline-danger"
-            hx-post="/dashboard/kategori/-table-kategori"
+            hx-post="/dashboard/subkategori/-table-subkategori"
             hx-target="#tbody"
           >
             <i class="bi bi-x-lg"></i>

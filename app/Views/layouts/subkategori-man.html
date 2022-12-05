@@ -14,12 +14,18 @@
         >
           <i class="bi ann-real bi-arrow-clockwise"></i>
         </button>
-        <div class="col-2 px-2">
+        <div
+          class="col-2 px-2"
+          hx-post="/dashboard/subkategori/-kategori"
+          hx-trigger="load"
+          hx-target="#kat"
+        >
           <select
+            id="kat"
             class="form-select"
             name="kategori"
-            hx-post="/dashboard/subkategori/-kategori"
-            hx-trigger="load"
+            hx-post="/dashboard/subkategori/-switch"
+            hx-target="#tbody"
           >
             <option>--pilih kategori--</option>
           </select>
@@ -29,7 +35,7 @@
         <div class="col-md-6 col-sm-8 d-flex">
           <button
             class="btn btn-primary"
-            hx-post="/dashboard/subkategori/-add-kategori"
+            hx-post="/dashboard/subkategori/-add-subkategori"
             hx-target="#tbody"
           >
             <i class="bi bi-person-plus"></i>
