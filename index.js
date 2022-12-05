@@ -1,3 +1,4 @@
+console.time("start");
 import app from "./setting.config.js";
 import { DefaultRouter } from "./app/Routers/DefaultRouter.js";
 import { path, dir } from "./path.js";
@@ -13,3 +14,5 @@ app.notFound((req, res) => {
 app.launch((addr) => {
   console.log(`\nlisten on port ${addr.port}`);
 });
+console.log("");
+console.timeEnd("start");

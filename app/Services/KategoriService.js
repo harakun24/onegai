@@ -11,7 +11,7 @@ export class KategoriService extends base {
     req.session.page = 0;
     req.session.limit = 5;
     res.render("layouts/kategori-man.html", {
-      list: await Kategori.findAll(),
+      // list: await Kategori.findAll(),
     });
   }
   //data management

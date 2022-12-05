@@ -1,0 +1,46 @@
+<tr>
+  <td>
+    <div class="col-12 d-flex justify-content-center">
+      <div class="col-8">#<%- data.id_kategori %></div>
+    </div>
+  </td>
+  <td class="col-6">
+    <div class="col-12 d-flex justify-content-center">
+      <div class="col-8">
+        <input
+          class="form-control"
+          type="text"
+          name="nama_kategori"
+          placeholder="kategori"
+          hx-put="/dashboard/kategori/update-kategori/<%- data.id_kategori %> "
+          hx-include="closest tr"
+          hx-target="closest tr"
+          hx-trigger="[enterKey]"
+          hx-swap="outerHTML"
+          value="<%- data.nama_kategori %>"
+        />
+      </div>
+    </div>
+  </td>
+  <td>
+    <div class="col-12 d-flex justify-content-center">
+      <button
+        class="btn btn-outline-success"
+        hx-put="/dashboard/kategori/update-kategori/<%- data.id_kategori %> "
+        hx-include="closest tr"
+        hx-swap="outerHTML"
+        hx-target="closest tr"
+      >
+        <i class="bi bi-sd-card"></i>
+      </button>
+      <button
+        class="btn mx-2 btn-outline-danger"
+        hx-post="/dashboard/kategori/-row-kategori/<%- data.id_kategori %> "
+        hx-target="closest tr"
+        hx-swap="outerHTML"
+      >
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+  </td>
+</tr>

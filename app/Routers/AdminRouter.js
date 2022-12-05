@@ -1,6 +1,7 @@
 import base from "./BaseRouter.js";
 import { AdminService } from "../Services/AdminService.js";
 import Kategori from "./KategoriRouter.js";
+import Subkategori from "./SubkategoriRouter.js";
 
 const service = new AdminService();
 class AdminRouter extends base {
@@ -15,7 +16,10 @@ class AdminRouter extends base {
         { "/delete-admin/:id": service.delete.bind(service) },
         { "/delete-admin-all": service.deleteAll },
       ],
-      sub: [{ "/kategori": Kategori.handler[1] }],
+      sub: [
+        { "/kategori": Kategori.handler[1] },
+        { "/subkategori": Subkategori.handler[1] },
+      ],
       // micro views
       components: [
         {

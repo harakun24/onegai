@@ -1,0 +1,67 @@
+<table class="mt-4 table table-bordered border-primary datatable">
+  <thead class="thead-dark">
+    <tr>
+      <th style="padding-top: 10px; padding-bottom: 10px">id</th>
+      <th>kategori</th>
+      <th>aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <div class="col-12 d-flex justify-content-center">
+          <div class="col-8">
+            <b>#</b>
+          </div>
+        </div>
+      </td>
+      <td>
+        <div class="col-12 d-flex justify-content-center">
+          <div class="col-8">
+            <input
+              class="form-control"
+              type="text"
+              name="nama_kategori"
+              placeholder="kategori"
+              required="required"
+              hx-post="/dashboard/kategori/add-kategori"
+              hx-include="closest tr"
+              hx-target="#tbody"
+              hx-trigger="[enterKey]"
+            />
+          </div>
+        </div>
+      </td>
+      <td>
+        <div class="col-12 d-flex justify-content-center">
+          <button
+            class="btn btn-outline-success"
+            hx-post="/dashboard/kategori/add-kategori"
+            hx-include="closest tr"
+            hx-target="#tbody"
+          >
+            <i class="bi bi-sd-card"></i>
+          </button>
+          <button
+            class="btn mx-2 btn-outline-danger"
+            hx-post="/dashboard/kategori/-table-kategori"
+            hx-target="#tbody"
+          >
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+      </td>
+    </tr>
+    <% if(locals.list && locals.list.length>0) { %>
+    <!--  -->
+
+    <% list.forEach(item=> {%>
+    <!--  -->
+    <%- include("row-content.html",{item}) %> <%})%> <% } else{ %>
+    <!--  -->
+    <% } %>
+  </tbody>
+</table>
+<div class="col-12 table-responsive">
+  <%- include("pagination-content.html",{count,current}) %>
+</div>
