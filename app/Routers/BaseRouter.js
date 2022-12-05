@@ -26,17 +26,24 @@ export default class BaseRouter {
           const k = Object.keys(el)[0];
           if (key == "sub") {
             this.#router.use(k, el[k]);
+            console.log(
+              `   #${key.toUpperCase()}->\t`.cyan +
+                // ` ${this.#endpoint}`.cyan +
+                // `${k == this.#endpoint ? "" : k}`.green
+                `${k}`.green
+            );
           } else {
             this.#router[key](k, (req, res) => {
               // req = req;
               el[k](req, res);
             });
+            console.log(
+              `   ${key.toUpperCase()}  \t`.magenta +
+                // ` ${this.#endpoint}`.cyan +
+                // `${k == this.#endpoint ? "" : k}`.green
+                `${k}`.green
+            );
           }
-          console.log(
-            `   ${key.toUpperCase()}--\t`.magenta +
-              // ` ${this.#endpoint}`.cyan +
-              `${k == this.#endpoint ? "" : k}`.green
-          );
         });
       }
     };

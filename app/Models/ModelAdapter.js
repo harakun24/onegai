@@ -14,9 +14,10 @@ export class ModelAdapter {
 
   constructor() {
     const { env } = process;
-    this.#driver = new Sequelize(env.db_database, env.db_user, env.db_pass, {
+    // this.#driver = new Sequelize(env.db_database, env.db_user, env.db_pass, {
+    this.#driver = new Sequelize({
       logging: false,
-      host: env.db_host,
+      // host: env.db_host,
       dialect: "sqlite",
       storage: path.resolve(
         dir,

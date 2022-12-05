@@ -112,6 +112,7 @@ export class AdminService extends base {
 const findAll = async (req, res) => {
   req.session.page = req.session.page ?? 0;
   req.session.search = req.session.search ?? "";
+  req.session.limit = req.session.limit ?? 5;
 
   const count = await Admin.count({
     where: {
@@ -120,8 +121,6 @@ const findAll = async (req, res) => {
       },
     },
   });
-  req.session.limit = req.session.limit == -1 ? count : req.session.limit;
-  req.session.limit = req.session.limit ?? 5;
   const rawResult = await Admin.findAll({
     where: {
       name: {
