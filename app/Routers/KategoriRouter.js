@@ -15,10 +15,7 @@ class KategoriRouter extends base {
         { "/delete-kategori-all": service.deleteAll },
       ],
       // micro views
-      swap: [
-        {
-          "/-dashboard": service.res_dashboard,
-        },
+      components: [
         { "/-table-kategori": service.res_table_show },
         { "/-search-kategori/": service.res_search },
         { "/-add-kategori": service.res_add },

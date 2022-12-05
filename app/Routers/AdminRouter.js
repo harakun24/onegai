@@ -17,7 +17,7 @@ class AdminRouter extends base {
       ],
       sub: [{ "/kategori": Kategori.handler[1] }],
       // micro views
-      swap: [
+      components: [
         {
           "/-dashboard": service.res_dashboard,
         },

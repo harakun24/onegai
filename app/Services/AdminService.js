@@ -60,6 +60,7 @@ export class AdminService extends base {
     findAll(req, res);
   }
   async res_add(req, res) {
+    req.session.page = 0;
     res.render("components/admin/add-content.html", {
       list: await Admin.findAll({
         where: {
@@ -71,6 +72,7 @@ export class AdminService extends base {
         offset: req.session.page * req.session.limit,
         order: [["userID", "DESC"]],
       }),
+      current: req.session.page,
       count: await Admin.count({
         where: {
           name: {
@@ -109,7 +111,6 @@ export class AdminService extends base {
 
 const findAll = async (req, res) => {
   req.session.page = req.session.page ?? 0;
-  req.session.limit = req.session.limit ?? 5;
   req.session.search = req.session.search ?? "";
 
   const count = await Admin.count({
@@ -119,6 +120,8 @@ const findAll = async (req, res) => {
       },
     },
   });
+  req.session.limit = req.session.limit == -1 ? count : req.session.limit;
+  req.session.limit = req.session.limit ?? 5;
   const rawResult = await Admin.findAll({
     where: {
       name: {
@@ -132,6 +135,7 @@ const findAll = async (req, res) => {
 
   res.render("components/admin/table-content.html", {
     list: rawResult,
+    current: req.session.page,
     count: Math.ceil(count / req.session.limit),
   });
 };

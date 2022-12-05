@@ -57,6 +57,7 @@ export class KategoriService extends base {
     findAll(req, res);
   }
   async res_add(req, res) {
+    req.session.page = 0;
     res.render("components/kategori/add-content.html", {
       list: await Kategori.findAll({
         where: {
@@ -68,6 +69,7 @@ export class KategoriService extends base {
         offset: req.session.page * req.session.limit,
         order: [["id_kategori", "DESC"]],
       }),
+      current: req.session.page,
       count: await Kategori.count({
         where: {
           nama_kategori: {
@@ -133,6 +135,7 @@ const findAll = async (req, res) => {
 
   res.render("components/kategori/table-content.html", {
     list: rawResult,
+    current: req.session.page,
     count: Math.ceil(count / req.session.limit),
   });
 };
