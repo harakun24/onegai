@@ -7,7 +7,16 @@ export class AdminService extends base {
     super("admin");
   }
   async render(req, res) {
-    res.render("layouts/template");
+    req.session.layout = req.session.layout ?? "dashboard/-admin";
+    res.render("layouts/template", { layout: req.session.layout });
+  }
+  async admin(req, res) {
+    if (req.header("mode") == "tab") {
+      this.res_admin(req, res);
+    } else {
+      req.session.layout = "dashboard/-admin";
+      res.redirect("/");
+    }
   }
   //data management
   async create(req, res) {
@@ -38,7 +47,6 @@ export class AdminService extends base {
     if (req.params.id)
       await deleting(req, res, { where: { userID: req.params.id } });
     else this.res_table_show(req, res);
-    // else res.redirect("/dashboard/-table-admin");
   }
   async deleteAll(req, res) {
     await deleting(req, res, { where: {}, truncate: true });
@@ -73,13 +81,15 @@ export class AdminService extends base {
         order: [["userID", "DESC"]],
       }),
       current: req.session.page,
-      count: await Admin.count({
-        where: {
-          name: {
-            [Op.like]: `%${req.session.search}%`,
+      count: Math.ceil(
+        (await Admin.count({
+          where: {
+            name: {
+              [Op.like]: `%${req.session.search}%`,
+            },
           },
-        },
-      }),
+        })) / req.session.limit
+      ),
     });
   }
   async res_edit(req, res) {
@@ -93,7 +103,7 @@ export class AdminService extends base {
     });
   }
   async res_search(req, res) {
-    req.session.search = req.body.name || "";
+    req.session.search = req.query.name || "";
     req.session.page = 0;
     findAll(req, res);
   }
@@ -102,7 +112,7 @@ export class AdminService extends base {
     findAll(req, res);
   }
   async res_limit(req, res) {
-    req.session.limit = req.body.limit;
+    req.session.limit = req.query.limit;
     req.session.page = 0;
 
     findAll(req, res);

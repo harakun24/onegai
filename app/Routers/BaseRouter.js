@@ -14,7 +14,6 @@ export default class BaseRouter {
     this.#endpoint = ep;
     console.log(`  @Route  ${ep}`.green);
     let { get, put, post, components, sub } = routes;
-    // console.log([...routes.post, ...routes.swap]);
     const del = routes.delete;
 
     const match = (temp) => {
@@ -26,23 +25,13 @@ export default class BaseRouter {
           const k = Object.keys(el)[0];
           if (key == "sub") {
             this.#router.use(k, el[k]);
-            console.log(
-              `    ${key.toUpperCase()}\t\t`.cyan +
-                // ` ${this.#endpoint}`.cyan +
-                // `${k == this.#endpoint ? "" : k}`.green
-                `${k}`.yellow
-            );
+            console.log(`    ${key.toUpperCase()}\t\t`.cyan + `${k}`.yellow);
           } else {
             this.#router[key](k, (req, res) => {
               // req = req;
               el[k](req, res);
             });
-            console.log(
-              `   ${key.toUpperCase()}  \t`.magenta +
-                // ` ${this.#endpoint}`.cyan +
-                // `${k == this.#endpoint ? "" : k}`.green
-                `${k}`.green
-            );
+            console.log(`   ${key.toUpperCase()}  \t`.magenta + `${k}`.green);
           }
         });
       }
@@ -51,7 +40,7 @@ export default class BaseRouter {
     match({ post });
     match({ put });
     match({ delete: del });
-    match({ post: components });
+    match({ get: components });
     match({ sub });
   }
 }

@@ -6,7 +6,7 @@
       <h5 class="card-title">
         Admin Manager &nbsp;
         <button
-          hx-post="/dashboard/-admin"
+          hx-get="/dashboard/-admin"
           hx-trigger="click"
           hx-swap="outerHTML"
           hx-target="#admin"
@@ -19,7 +19,7 @@
         <div class="col-md-6 col-sm-8 d-flex">
           <button
             class="btn btn-primary"
-            hx-post="/dashboard/-add-admin"
+            hx-get="/dashboard/-add-content"
             hx-target="#tbody"
           >
             <i class="bi bi-person-plus"></i>
@@ -29,7 +29,7 @@
             <select
               class="form-select"
               name="limit"
-              hx-post="/dashboard/-limit-admin"
+              hx-get="/dashboard/-limit-content"
               hx-target="#tbody"
             >
               <option value="3">3 data</option>
@@ -37,11 +37,12 @@
               <option value="7">7 data</option>
               <option value="10">10 data</option>
               <option value="20">20 data</option>
+              <option value="100000">100k data</option>
             </select>
           </div>
           <div
             class="form-group col-sm-6 col-md-5 px-1"
-            hx-post="/dashboard/-search-admin"
+            hx-get="/dashboard/-search-content"
             hx-trigger="click delay:300ms"
             hx-target="#tbody"
             hx-include="#search"
@@ -52,9 +53,10 @@
               name="name"
               placeholder="cari admin..."
               class="form-control"
-              hx-post="/dashboard/-search-admin"
+              hx-get="/dashboard/-search-content"
               hx-trigger="keyup changed"
               hx-target="#tbody"
+              hx-include="#search"
             />
           </div>
         </div>
@@ -62,7 +64,7 @@
           <button
             class="btn btn-outline-danger"
             hx-confirm="anda yakin ingin mengosongkan data?"
-            hx-delete="/dashboard/delete-admin-all"
+            hx-delete="/dashboard/delete-content-all"
             hx-target="#tbody"
           >
             <i class="bi bi-trash"></i>
@@ -74,7 +76,7 @@
         <div
           class="table-responsive"
           id="tbody"
-          hx-post="/dashboard/-table-admin"
+          hx-get="/dashboard/-table-content"
           hx-trigger="load"
         >
           <table class="mt-4 table table-bordered border-primary datatable">
@@ -89,7 +91,9 @@
             </thead>
             <tbody>
               <tr>
-                <td colspan="3">memuat data...</td>
+                <td colspan="3">
+                  <img src="/assets/img/loading.gif" alt="" />
+                </td>
               </tr>
             </tbody>
           </table>

@@ -14,7 +14,7 @@
     <div class="col-12 d-flex justify-content-center">
       <button
         class="btn btn-outline-success"
-        hx-post="/dashboard/-edit-admin/<%- item.userID %> "
+        hx-get="/dashboard/-edit-content/<%- item.userID %> "
         hx-target="closest tr"
         hx-swap="outerHTML"
       >
@@ -22,7 +22,7 @@
       </button>
       <button
         class="btn mx-2 btn-danger"
-        hx-delete="/dashboard/delete-admin/<%- item.userID %> "
+        hx-delete="/dashboard/delete-content/<%- item.userID %> "
         hx-target="#tbody"
         hx-confirm="yakin ingin menghapus <%- item.name %> "
       >

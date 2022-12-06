@@ -3,7 +3,7 @@
     <li class="nav-item">
       <a
         class="nav-link collapsed"
-        hx-post="/dashboard/-dashboard"
+        hx-post="/dashboard/dashboard"
         hx-target="#main"
         hx-push-url="true"
       >
@@ -29,18 +29,25 @@
         data-bs-parent="#sidebar-nav"
       >
         <li>
-          <a hx-post="/dashboard/-admin" hx-target="#main" hx-push-url="true">
+          <a
+            hx-get="/dashboard/admin"
+            hx-headers='{"mode":"tab"}''
+            hx-target="#main"
+            hx-push-url="true"
+          >
             <i class="bi bi-circle"></i><span>Admin Manager</span>
           </a>
         </li>
         <li>
-          <a hx-post="/dashboard/kategori" hx-target="#main" hx-push-url="true">
+          <a hx-get="/dashboard/kategori" hx-target="#main" hx-push-url="true" 
+          hx-headers='{"mode":"tab"}''
+          >
             <i class="bi bi-circle"></i><span>Kategori</span>
           </a>
         </li>
         <li>
           <a
-            hx-post="/dashboard/subkategori"
+            hx-get="/dashboard/subkategori"
             hx-target="#main"
             hx-push-url="true"
           >

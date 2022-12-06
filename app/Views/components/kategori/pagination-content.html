@@ -2,7 +2,7 @@
 aria-label="Page navigation example">
   <ul class="pagination">
     <% for(let i=0;i<count;i++) {%> 
-    <li class="page-item <%- i == current?"active":"" %>"><a class="page-link" hx-post="/dashboard/kategori/-page-goto/<%- i %> " hx-target="#tbody"><%- i+1 %> </a></li>
+    <li class="page-item <%- i == current?"active":"" %>"><a class="page-link" hx-get="/dashboard/kategori/-page-goto/<%- i %> " hx-target="#tbody"><%- i+1 %> </a></li>
     <% } %> 
   </ul>
 </nav>

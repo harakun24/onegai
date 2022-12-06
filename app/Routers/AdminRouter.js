@@ -10,11 +10,11 @@ class AdminRouter extends base {
 
     this.route("/dashboard", {
       get: [{ "/": service.render }],
-      post: [{ "/add-admin": service.create }],
-      put: [{ "/update-admin/:id": service.update }],
+      post: [{ "/add-content": service.create }],
+      put: [{ "/update-content/:id": service.update }],
       delete: [
-        { "/delete-admin/:id": service.delete.bind(service) },
-        { "/delete-admin-all": service.deleteAll },
+        { "/delete-content/:id": service.delete.bind(service) },
+        { "/delete-content-all": service.deleteAll },
       ],
       sub: [
         { "/kategori": Kategori.handler[1] },
@@ -23,18 +23,21 @@ class AdminRouter extends base {
       // micro views
       components: [
         {
-          "/-dashboard": service.res_dashboard,
+          "/dashboard": service.res_dashboard,
+        },
+        {
+          "/admin": service.admin.bind(service),
         },
         {
           "/-admin": service.res_admin,
         },
-        { "/-table-admin": service.res_table_show },
-        { "/-search-admin/": service.res_search },
-        { "/-add-admin": service.res_add },
-        { "/-edit-admin/:id": service.res_edit },
-        { "/-row-admin/:id": service.res_row },
+        { "/-table-content": service.res_table_show },
+        { "/-search-content": service.res_search },
+        { "/-add-content": service.res_add },
+        { "/-edit-content/:id": service.res_edit },
+        { "/-row-content/:id": service.res_row },
         { "/-page-goto/:page": service.res_goto },
-        { "/-limit-admin": service.res_limit },
+        { "/-limit-content": service.res_limit },
       ],
     });
   }

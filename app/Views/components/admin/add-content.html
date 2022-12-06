@@ -29,7 +29,7 @@
               name="password"
               placeholder="password"
               required="required"
-              hx-post="/dashboard/add-admin"
+              hx-post="/dashboard/add-content"
               hx-include="closest tr"
               hx-target="#tbody"
               hx-trigger="[enterKey]"
@@ -41,7 +41,7 @@
         <div class="col-12 d-flex justify-content-center">
           <button
             class="btn btn-outline-success"
-            hx-post="/dashboard/add-admin"
+            hx-post="/dashboard/add-content"
             hx-include="closest tr"
             hx-target="#tbody"
           >
@@ -49,7 +49,7 @@
           </button>
           <button
             class="btn mx-2 btn-outline-danger"
-            hx-post="/dashboard/-table-admin"
+            hx-get="/dashboard/-table-content"
             hx-target="#tbody"
           >
             <i class="bi bi-x-lg"></i>
@@ -61,14 +61,7 @@
     <!--  -->
 
     <% list.forEach(item=> {%>
-    <!-- <tr
-        hx-post="/dashboard/-row-admin/<%- item.userID %> "
-        hx-trigger="load"
-        hx-swap="outerHTML"
-      >
-        <td colspan="3">memuat...</td>
-      </tr>
-      -->
+    <!--  -->
     <%- include("row-content.html",{item}) %> <%})%> <% } else{ %>
     <!--  -->
     <% } %>

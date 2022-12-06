@@ -7,12 +7,12 @@ export class KategoriService extends base {
     super("kategori");
   }
   async render(req, res) {
-    req.session.search = "";
-    req.session.page = 0;
-    req.session.limit = 5;
-    res.render("layouts/kategori-man.html", {
-      // list: await Kategori.findAll(),
-    });
+    if (req.header("mode") == "tab") {
+      this.res_content(req, res);
+    } else {
+      req.session.layout = "dashboard/kategori/-content";
+      res.redirect("/");
+    }
   }
   //data management
   async create(req, res) {
@@ -52,7 +52,14 @@ export class KategoriService extends base {
   }
 
   //micro views
-
+  async res_content(req, res) {
+    req.session.search = "";
+    req.session.page = 0;
+    req.session.limit = 5;
+    res.render("layouts/kategori-man.html", {
+      // list: await Kategori.findAll(),
+    });
+  }
   async res_table_show(req, res) {
     findAll(req, res);
   }
@@ -70,13 +77,15 @@ export class KategoriService extends base {
         order: [["id_kategori", "DESC"]],
       }),
       current: req.session.page,
-      count: await Kategori.count({
-        where: {
-          nama_kategori: {
-            [Op.like]: `%${req.session.search}%`,
+      count: Math.ceil(
+        (await Kategori.count({
+          where: {
+            nama_kategori: {
+              [Op.like]: `%${req.session.search}%`,
+            },
           },
-        },
-      }),
+        })) / req.session.limit
+      ),
     });
   }
   async res_edit(req, res) {
@@ -94,7 +103,7 @@ export class KategoriService extends base {
     });
   }
   async res_search(req, res) {
-    req.session.search = req.body.name || "";
+    req.session.search = req.query.name || "";
     req.session.page = 0;
     findAll(req, res);
   }
@@ -103,7 +112,7 @@ export class KategoriService extends base {
     findAll(req, res);
   }
   async res_limit(req, res) {
-    req.session.limit = req.body.limit;
+    req.session.limit = req.query.limit;
     req.session.page = 0;
 
     findAll(req, res);

@@ -11,14 +11,7 @@
     <!--  -->
 
     <% list.forEach(item=> {%>
-    <!-- <tr
-        hx-post="/dashboard/-row-admin/<%- item.userID %> "
-        hx-trigger="load"
-        hx-swap="outerHTML"
-      >
-        <td colspan="3">memuat...</td>
-      </tr>
-      -->
+    <!--  -->
     <%- include("row-content.html",{item}) %> <%})%> <% } else{ %>
     <!--  -->
     <tr>
@@ -28,6 +21,5 @@
   </tbody>
 </table>
 <div class="col-12 table-responsive">
-  <!-- <p hx-post="/dashboard/-page-admin" hx-trigger="load"></p> -->
   <%- include("pagination-content.html",{count,current}) %>
 </div>

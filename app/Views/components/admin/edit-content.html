@@ -7,7 +7,7 @@
           type="text"
           name="name"
           placeholder="username"
-          hx-put="/dashboard/update-admin/<%- data.userID %> "
+          hx-put="/dashboard/update-content/<%- data.userID %> "
           hx-include="closest tr"
           hx-target="closest tr"
           hx-trigger="[enterKey]"
@@ -25,7 +25,7 @@
           type="password"
           name="password"
           placeholder="password"
-          hx-put="/dashboard/update-admin/<%- data.userID %> "
+          hx-put="/dashboard/update-content/<%- data.userID %> "
           hx-include="closest tr"
           hx-target="closest tr"
           hx-trigger="[enterKey]"
@@ -39,7 +39,7 @@
     <div class="col-12 d-flex justify-content-center">
       <button
         class="btn btn-outline-success"
-        hx-put="/dashboard/update-admin/<%- data.userID %> "
+        hx-put="/dashboard/update-content/<%- data.userID %> "
         hx-include="closest tr"
         hx-swap="outerHTML"
         hx-target="closest tr"
@@ -48,7 +48,7 @@
       </button>
       <button
         class="btn mx-2 btn-outline-danger"
-        hx-post="/dashboard/-row-admin/<%- data.userID %> "
+        hx-get="/dashboard/-row-content/<%- data.userID %> "
         hx-target="closest tr"
         hx-swap="outerHTML"
       >
