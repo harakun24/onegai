@@ -1,0 +1,10 @@
+<script
+  hx-get="/dashboard/kategori/-content"
+  hx-header='{"mode":"tab"}'
+  hx-target="#main"
+  hx-trigger="load"
+>
+  window.history.pushState("", "", "/dashboard/kategori");
+  alert("isi kategori dulu");
+  console.log("no kategori <%- e.message%>");
+</script>

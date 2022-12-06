@@ -4,23 +4,15 @@ import { Op } from "sequelize";
 const { Kategori, Subkategori } = base.models;
 export class SubkategoriService extends base {
   constructor() {
-    super("kategori");
+    super("subkategori");
   }
   async render(req, res) {
-    req.session.search = "";
-    req.session.page = 0;
-    req.session.limit = 5;
-    req.session.kat = (
-      await Kategori.findAll({
-        limit: 1,
-        raw: true,
-        attributes: ["id_kategori"],
-      })
-    )[0].id_kategori;
-    console.log(req.session.kat);
-    res.render("layouts/subkategori-man.html", {
-      // list: await Kategori.findAll(),
-    });
+    if (req.header("mode") == "tab") {
+      this.res_content(req, res);
+    } else {
+      req.session.layout = "dashboard/subkategori/-content";
+      res.redirect("/");
+    }
   }
   //data management
   async create(req, res) {
@@ -61,6 +53,26 @@ export class SubkategoriService extends base {
   }
 
   //micro views
+  async res_content(req, res) {
+    req.session.search = "";
+    req.session.page = 0;
+    req.session.limit = 5;
+    try {
+      req.session.kat = (
+        await Kategori.findAll({
+          limit: 1,
+          raw: true,
+          attributes: ["id_kategori"],
+        })
+      )[0].id_kategori;
+      console.log(req.session.kat);
+      res.render("layouts/subkategori-man.html", {
+        // list: await Kategori.findAll(),
+      });
+    } catch (e) {
+      res.render("components/subkategori/no-kategori.html", { e });
+    }
+  }
   async res_kategori(req, res) {
     res.render("components/subkategori/kategori-select.html", {
       data: await Kategori.findAll(),
@@ -108,7 +120,7 @@ export class SubkategoriService extends base {
     });
   }
   async res_search(req, res) {
-    req.session.search = req.body.name || "";
+    req.session.search = req.query.name || "";
     req.session.page = 0;
     findAll(req, res);
   }
@@ -117,13 +129,13 @@ export class SubkategoriService extends base {
     findAll(req, res);
   }
   async res_limit(req, res) {
-    req.session.limit = req.body.limit;
+    req.session.limit = req.query.limit;
     req.session.page = 0;
 
     findAll(req, res);
   }
   async switch(req, res) {
-    req.session.kat = req.body.kategori ?? req.session.kat;
+    req.session.kat = req.query.kategori ?? req.session.kat;
     findAll(req, res);
   }
 }

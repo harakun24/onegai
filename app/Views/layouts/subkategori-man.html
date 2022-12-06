@@ -6,7 +6,7 @@
       <h5 class="card-title d-flex align-items-center">
         Subkategori Manager &nbsp;
         <button
-          hx-post="/dashboard/subkategori/"
+          hx-get="/dashboard/subkategori/-content"
           hx-trigger="click"
           hx-swap="outerHTML"
           hx-target="#kategori"
@@ -16,7 +16,7 @@
         </button>
         <div
           class="col-2 px-2"
-          hx-post="/dashboard/subkategori/-kategori"
+          hx-get="/dashboard/subkategori/-kategori"
           hx-trigger="load"
           hx-target="#kat"
         >
@@ -24,7 +24,7 @@
             id="kat"
             class="form-select"
             name="kategori"
-            hx-post="/dashboard/subkategori/-switch"
+            hx-get="/dashboard/subkategori/-switch"
             hx-target="#tbody"
           >
             <option>--pilih kategori--</option>
@@ -35,7 +35,7 @@
         <div class="col-md-6 col-sm-8 d-flex">
           <button
             class="btn btn-primary"
-            hx-post="/dashboard/subkategori/-add-subkategori"
+            hx-get="/dashboard/subkategori/-add-content"
             hx-target="#tbody"
           >
             <i class="bi bi-person-plus"></i>
@@ -45,7 +45,7 @@
             <select
               class="form-select"
               name="limit"
-              hx-post="/dashboard/subkategori/-limit-subkategori"
+              hx-get="/dashboard/subkategori/-limit-content"
               hx-target="#tbody"
             >
               <option value="3">3 data</option>
@@ -57,7 +57,7 @@
           </div>
           <div
             class="form-group col-sm-6 col-md-5 px-1"
-            hx-post="/dashboard/subkategori/-search-subkategori"
+            hx-get="/dashboard/subkategori/-search-content"
             hx-trigger="click delay:300ms"
             hx-target="#tbody"
             hx-include="#search"
@@ -68,7 +68,7 @@
               name="name"
               placeholder="cari..."
               class="form-control"
-              hx-post="/dashboard/subkategori/-search-subkategori"
+              hx-get="/dashboard/subkategori/-search-content"
               hx-trigger="keyup changed"
               hx-target="#tbody"
             />
@@ -78,7 +78,7 @@
           <button
             class="btn btn-outline-danger"
             hx-confirm="anda yakin ingin mengosongkan data?"
-            hx-delete="/dashboard/subkategori/delete-subkategori-all"
+            hx-delete="/dashboard/subkategori/delete-content-all"
             hx-target="#tbody"
           >
             <i class="bi bi-trash"></i>
@@ -90,7 +90,7 @@
         <div
           class="table-responsive"
           id="tbody"
-          hx-post="/dashboard/subkategori/-table-subkategori"
+          hx-get="/dashboard/subkategori/-table-content"
           hx-trigger="load"
         >
           <table class="mt-4 table table-bordered border-primary datatable">

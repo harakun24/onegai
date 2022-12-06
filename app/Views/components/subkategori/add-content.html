@@ -24,7 +24,7 @@
               name="nama_sub"
               placeholder="subkategori"
               required="required"
-              hx-post="/dashboard/subkategori/add-subkategori"
+              hx-post="/dashboard/subkategori/add-content"
               hx-include="closest tr"
               hx-target="#tbody"
               hx-trigger="[enterKey]"
@@ -36,7 +36,7 @@
         <div class="col-12 d-flex justify-content-center">
           <button
             class="btn btn-outline-success"
-            hx-post="/dashboard/subkategori/add-subkategori"
+            hx-post="/dashboard/subkategori/add-content"
             hx-include="closest tr"
             hx-target="#tbody"
           >
@@ -44,7 +44,7 @@
           </button>
           <button
             class="btn mx-2 btn-outline-danger"
-            hx-post="/dashboard/subkategori/-table-subkategori"
+            hx-get="/dashboard/subkategori/-table-content"
             hx-target="#tbody"
           >
             <i class="bi bi-x-lg"></i>

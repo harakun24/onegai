@@ -1,4 +1,7 @@
-<header id="header" class="header fixed-top d-flex align-items-center">
+<header
+  id="header"
+  class="header col-12 fixed-top d-flex justify-content-between align-items-center"
+>
   <div class="d-flex align-items-center justify-content-between">
     <a
       hx-post="/dashboard/-dashboard"
@@ -10,5 +13,12 @@
     </a>
     <i class="bi bi-list toggle-sidebar-btn"></i>
   </div>
+  <button
+    type="button"
+    class="btn btn-lg btn-outline-dark p-2 m-2"
+    onclick="window.open('https:\/\/github.com\/harakun24\/onegai')"
+  >
+    <i class="bi bi-github me-1"></i> | Github
+  </button>
   <!-- End Logo -->
 </header>

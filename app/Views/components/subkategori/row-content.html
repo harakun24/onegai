@@ -5,7 +5,7 @@
     <div class="col-12 d-flex justify-content-center">
       <button
         class="btn btn-outline-success"
-        hx-post="/dashboard/subkategori/-edit-subkategori/<%- item.id_sub %> "
+        hx-get="/dashboard/subkategori/-edit-content/<%- item.id_sub %> "
         hx-target="closest tr"
         hx-swap="outerHTML"
       >
@@ -13,7 +13,7 @@
       </button>
       <button
         class="btn mx-2 btn-danger"
-        hx-delete="/dashboard/subkategori/delete-subkategori/<%- item.id_sub %> "
+        hx-delete="/dashboard/subkategori/delete-content/<%- item.id_sub %> "
         hx-target="#tbody"
         hx-confirm="yakin ingin menghapus <%- item.nama_sub %> "
       >

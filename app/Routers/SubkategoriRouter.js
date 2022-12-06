@@ -7,24 +7,25 @@ class SubkategoriRouter extends base {
     super();
 
     this.route("/subkategori", {
-      // get: [],
-      post: [{ "/": service.render }, { "/add-subkategori": service.create }],
-      put: [{ "/update-subkategori/:id": service.update }],
+      get: [{ "/": service.render.bind(service) }],
+      post: [, { "/add-content": service.create }],
+      put: [{ "/update-content/:id": service.update }],
       delete: [
-        { "/delete-subkategori/:id": service.delete.bind(service) },
-        { "/delete-subkategori-all": service.deleteAll },
+        { "/delete-content/:id": service.delete.bind(service) },
+        { "/delete-content-all": service.deleteAll },
       ],
       // micro views
       components: [
+        { "/-content": service.res_content },
         { "/-kategori": service.res_kategori },
         { "/-switch": service.switch },
-        { "/-table-subkategori": service.res_table_show },
-        { "/-search-subkategori/": service.res_search },
-        { "/-add-subkategori": service.res_add },
-        { "/-edit-subkategori/:id": service.res_edit },
-        { "/-row-subkategori/:id": service.res_row },
+        { "/-table-content": service.res_table_show },
+        { "/-search-content/": service.res_search },
+        { "/-add-content": service.res_add },
+        { "/-edit-content/:id": service.res_edit },
+        { "/-row-content/:id": service.res_row },
         { "/-page-goto/:page": service.res_goto },
-        { "/-limit-subkategori": service.res_limit },
+        { "/-limit-content": service.res_limit },
       ],
     });
   }
