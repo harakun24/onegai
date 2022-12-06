@@ -1,3 +1,5 @@
+<!-- @format -->
+
 <tr>
   <td style="padding-top: 15px"><b>#<%- item.id_sub %></b></td>
   <td class="col-4"><%- item.nama_sub %></td>
@@ -7,16 +9,14 @@
         class="btn btn-outline-success"
         hx-get="/dashboard/subkategori/-edit-content/<%- item.id_sub %> "
         hx-target="closest tr"
-        hx-swap="outerHTML"
-      >
+        hx-swap="outerHTML">
         <i class="bi bi-pencil-square"></i>
       </button>
       <button
         class="btn mx-2 btn-danger"
         hx-delete="/dashboard/subkategori/delete-content/<%- item.id_sub %> "
         hx-target="#tbody"
-        hx-confirm="yakin ingin menghapus <%- item.nama_sub %> "
-      >
+        hx-confirm="yakin ingin menghapus <%- item.nama_sub %> ">
         <i class="bi bi-trash"></i>
       </button>
     </div>

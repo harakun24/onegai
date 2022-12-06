@@ -1,3 +1,5 @@
+<!-- @format -->
+
 <!-- <section class="section"> -->
 <!-- <div class="row"> -->
 <div class="col-lg-12" id="admin">
@@ -10,8 +12,7 @@
           hx-trigger="click"
           hx-swap="outerHTML"
           hx-target="#admin"
-          class="rounded-pill btn btn-warning"
-        >
+          class="rounded-pill btn btn-warning">
           <i class="bi ann-real bi-arrow-clockwise"></i>
         </button>
       </h5>
@@ -20,8 +21,7 @@
           <button
             class="btn btn-primary"
             hx-post="/dashboard/-add-admin"
-            hx-target="#tbody"
-          >
+            hx-target="#tbody">
             <i class="bi bi-person-plus"></i>
             <span class="d-none d-md-inline-block"> tambah</span></button
           >&nbsp;
@@ -30,8 +30,7 @@
               class="form-select"
               name="limit"
               hx-post="/dashboard/-limit-admin"
-              hx-target="#tbody"
-            >
+              hx-target="#tbody">
               <option value="5">5 data</option>
               <option value="10">10 data</option>
               <option value="20">20 data</option>
@@ -42,8 +41,7 @@
             class="form-group col-sm-6 col-md-5 px-1"
             hx-post="/dashboard/-search-admin"
             hx-trigger="click"
-            hx-target="#tbody"
-          >
+            hx-target="#tbody">
             <input
               type="search"
               name="name"
@@ -51,8 +49,7 @@
               class="form-control"
               hx-post="/dashboard/-search-admin"
               hx-trigger="keyup change"
-              hx-target="#tbody"
-            />
+              hx-target="#tbody" />
           </div>
         </div>
         <div class="col-md-6 col-sm-4 d-flex justify-content-end">
@@ -60,8 +57,7 @@
             class="btn btn-outline-danger"
             hx-confirm="anda yakin ingin mengosongkan data?"
             hx-delete="/dashboard/delete-admin-all"
-            hx-target="#tbody"
-          >
+            hx-target="#tbody">
             <i class="bi bi-trash"></i>
             <span class="d-none d-md-inline-block"> kosongkan</span>
           </button>
@@ -72,8 +68,7 @@
           class="table-responsive"
           id="tbody"
           hx-post="/dashboard/-table-admin"
-          hx-trigger="load"
-        >
+          hx-trigger="load">
           <table class="mt-4 table table-bordered border-primary datatable">
             <thead class="thead-dark">
               <tr>

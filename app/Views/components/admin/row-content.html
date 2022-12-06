@@ -1,3 +1,5 @@
+<!-- @format -->
+
 <tr>
   <td style="padding-top: 15px"><%- item.name %></td>
   <td class="col-4">
@@ -7,8 +9,7 @@
       style="background-color: transparent"
       value="<%- item.password %>"
       readonly
-      disabled
-    />
+      disabled />
   </td>
   <td>
     <div class="col-12 d-flex justify-content-center">
@@ -16,16 +17,14 @@
         class="btn btn-outline-success"
         hx-get="/dashboard/-edit-content/<%- item.userID %> "
         hx-target="closest tr"
-        hx-swap="outerHTML"
-      >
+        hx-swap="outerHTML">
         <i class="bi bi-pencil-square"></i>
       </button>
       <button
         class="btn mx-2 btn-danger"
         hx-delete="/dashboard/delete-content/<%- item.userID %> "
         hx-target="#tbody"
-        hx-confirm="yakin ingin menghapus <%- item.name %> "
-      >
+        hx-confirm="yakin ingin menghapus <%- item.name %> ">
         <i class="bi bi-trash"></i>
       </button>
     </div>

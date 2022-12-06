@@ -1,3 +1,5 @@
+<!-- @format -->
+
 <tr>
   <td>
     <div class="col-12 d-flex justify-content-center">
@@ -17,8 +19,7 @@
           hx-target="closest tr"
           hx-trigger="[enterKey]"
           hx-swap="outerHTML"
-          value="<%- data.nama_kategori %>"
-        />
+          value="<%- data.nama_kategori %>" />
       </div>
     </div>
   </td>
@@ -29,16 +30,14 @@
         hx-put="/dashboard/kategori/update-content/<%- data.id_kategori %> "
         hx-include="closest tr"
         hx-swap="outerHTML"
-        hx-target="closest tr"
-      >
+        hx-target="closest tr">
         <i class="bi bi-sd-card"></i>
       </button>
       <button
         class="btn mx-2 btn-outline-danger"
         hx-get="/dashboard/kategori/-row-content/<%- data.id_kategori %> "
         hx-target="closest tr"
-        hx-swap="outerHTML"
-      >
+        hx-swap="outerHTML">
         <i class="bi bi-x-lg"></i>
       </button>
     </div>

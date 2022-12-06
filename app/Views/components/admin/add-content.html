@@ -1,3 +1,5 @@
+<!-- @format -->
+
 <table class="mt-4 table table-bordered border-primary datatable">
   <thead class="thead-dark">
     <tr>
@@ -15,8 +17,7 @@
               class="form-control"
               type="text"
               name="name"
-              placeholder="username"
-            />
+              placeholder="username" />
           </div>
         </div>
       </td>
@@ -32,8 +33,7 @@
               hx-post="/dashboard/add-content"
               hx-include="closest tr"
               hx-target="#tbody"
-              hx-trigger="[enterKey]"
-            />
+              hx-trigger="[enterKey]" />
           </div>
         </div>
       </td>
@@ -43,15 +43,13 @@
             class="btn btn-outline-success"
             hx-post="/dashboard/add-content"
             hx-include="closest tr"
-            hx-target="#tbody"
-          >
+            hx-target="#tbody">
             <i class="bi bi-sd-card"></i>
           </button>
           <button
             class="btn mx-2 btn-outline-danger"
             hx-get="/dashboard/-table-content"
-            hx-target="#tbody"
-          >
+            hx-target="#tbody">
             <i class="bi bi-x-lg"></i>
           </button>
         </div>

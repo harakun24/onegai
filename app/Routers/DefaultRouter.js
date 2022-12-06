@@ -1,3 +1,5 @@
+/** @format */
+
 import base from "./BaseRouter.js";
 import { DefaulService } from "../Services/DefaultService.js";
 import AdminRouter from "./AdminRouter.js";

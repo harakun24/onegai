@@ -1,7 +1,10 @@
+/** @format */
+
 import base from "./BaseRouter.js";
 import { AdminService } from "../Services/AdminService.js";
 import Kategori from "./KategoriRouter.js";
 import Subkategori from "./SubkategoriRouter.js";
+import Divisi from "./DivisiRouter.js";
 
 const service = new AdminService();
 class AdminRouter extends base {
@@ -19,6 +22,7 @@ class AdminRouter extends base {
       sub: [
         { "/kategori": Kategori.handler[1] },
         { "/subkategori": Subkategori.handler[1] },
+        { "/divisi": Divisi.handler[1] },
       ],
       // micro views
       components: [
