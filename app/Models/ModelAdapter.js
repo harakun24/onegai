@@ -24,7 +24,8 @@ export class ModelAdapter {
       dialect: "sqlite",
       storage: path.resolve(
         dir,
-        "./app/database/",
+        // "./app/database/",
+        "./",
         // "./database.sequelize"
         (env.db_storage || "./database@pub") + ".sqlite"
       ),
