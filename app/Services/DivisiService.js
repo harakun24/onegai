@@ -6,7 +6,7 @@ import { Op } from "sequelize";
 const { Divisi } = base.models;
 export class DivisiService extends base {
   constructor() {
-    super("kategori");
+    super("divisi");
   }
   async render(req, res) {
     if (req.header("mode") == "tab") {

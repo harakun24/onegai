@@ -1,11 +1,13 @@
-import express, { Router } from "express";
+/** @format */
+
+import { Router } from "express";
 import "colors";
 
 export default class BaseRouter {
   #router;
   #endpoint;
   constructor() {
-    this.#router = new express.Router();
+    this.#router = new Router();
   }
   get handler() {
     return [this.#endpoint, this.#router];

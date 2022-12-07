@@ -1,3 +1,5 @@
+/** @format */
+
 import base from "./BaseService.js";
 import { Op } from "sequelize";
 
@@ -15,6 +17,14 @@ export class AdminService extends base {
       this.res_admin(req, res);
     } else {
       req.session.layout = "dashboard/-admin";
+      res.redirect("/");
+    }
+  }
+  async dashboard(req, res) {
+    if (req.header("mode") == "tab") {
+      this.res_dashboard(req, res);
+    } else {
+      req.session.layout = "dashboard/-dashboard";
       res.redirect("/");
     }
   }

@@ -2,7 +2,8 @@
   <ul class="sidebar-nav" id="sidebar-nav">
     <li class="nav-item">
       <a class="nav-link collapsed"
-        hx-post="/dashboard/dashboard"
+        hx-get="/dashboard/dashboard"
+        hx-headers='{"mode":"tab"}'
         hx-target="#main"
         hx-push-url="true">
         <i class="bi bi-grid"></i>

@@ -1,13 +1,15 @@
+<!-- @format -->
+
 <header
   id="header"
-  class="header col-12 fixed-top d-flex justify-content-between align-items-center"
->
+  class="header col-12 fixed-top d-flex justify-content-between align-items-center">
   <div class="d-flex align-items-center justify-content-between">
     <a
-      hx-post="/dashboard/-dashboard"
+      hx-get="/dashboard/dashboard"
       hx-target="#main"
-      class="logo d-flex align-items-center"
-    >
+      hx-push-url="true"
+      hx-headers='{"mode":"tab"}'
+      class="logo d-flex align-items-center">
       <img src="/assets/img/logo.png" alt="" />
       <span>Onegai</span>
     </a>
@@ -16,8 +18,7 @@
   <button
     type="button"
     class="btn btn-sm btn-outline-dark p-2 m-2"
-    onclick="window.open('https:\/\/github.com\/harakun24\/onegai')"
-  >
+    onclick="window.open('https:\/\/github.com\/harakun24\/onegai')">
     <i class="bi bi-github me-1"></i> | Github
   </button>
   <!-- End Logo -->

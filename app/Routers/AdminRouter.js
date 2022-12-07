@@ -5,6 +5,7 @@ import { AdminService } from "../Services/AdminService.js";
 import Kategori from "./KategoriRouter.js";
 import Subkategori from "./SubkategoriRouter.js";
 import Divisi from "./DivisiRouter.js";
+import Peserta from "./PesertaRouter.js";
 
 const service = new AdminService();
 class AdminRouter extends base {
@@ -23,14 +24,18 @@ class AdminRouter extends base {
         { "/kategori": Kategori.handler[1] },
         { "/subkategori": Subkategori.handler[1] },
         { "/divisi": Divisi.handler[1] },
+        { "/peserta": Peserta.handler[1] },
       ],
       // micro views
       components: [
         {
-          "/dashboard": service.res_dashboard,
+          "/dashboard": service.dashboard.bind(service),
         },
         {
           "/admin": service.admin.bind(service),
+        },
+        {
+          "/-dashboard": service.res_dashboard,
         },
         {
           "/-admin": service.res_admin,
