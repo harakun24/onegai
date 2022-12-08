@@ -1,9 +1,17 @@
-<nav
-aria-label="Page navigation example">
+<!-- @format -->
+
+<nav aria-label="Page navigation example">
   <ul class="pagination">
-    <% for(let i=0;i<count;i++) {%>
-      <% const status= i == current?'active':''; %> 
-    <li class="page-item <%- status %>"><a class="page-link" hx-get="/dashboard/subkategori/-page-goto/<%- i %> " hx-target="#tbody"><%- i+1 %> </a></li>
-    <% } %> 
+    <!-- <% for(let i=0;i<count;i++) {%> -->
+    <!-- <% const status= i == current?'active':''; %>  -->
+    <li class="page-item <%- status %>">
+      <a
+        class="page-link"
+        hx-get="/dashboard/subkategori/-page-goto/<%- i %> "
+        hx-target="#tbody"
+        ><%- i+1 %>
+      </a>
+    </li>
+    <!-- <% } %>  -->
   </ul>
 </nav>

@@ -1,14 +1,14 @@
 /** @format */
 
 import base from "./BaseRouter.js";
-import { KategoriService } from "../Services/KategoriService.js";
+import { PesertaService } from "../Services/PesertaService.js";
 
-const service = new KategoriService();
-class KategoriRouter extends base {
+const service = new PesertaService();
+class PesertaRouter extends base {
   constructor() {
     super();
 
-    this.route("/", {
+    this.route("/peserta", {
       get: [{ "/": service.render.bind(service) }],
       post: [, { "/add-content": service.create }],
       put: [{ "/update-content/:id": service.update }],
@@ -31,4 +31,4 @@ class KategoriRouter extends base {
   }
 }
 
-export default new KategoriRouter();
+export default new PesertaRouter();

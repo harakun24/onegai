@@ -8,7 +8,7 @@ class KategoriRouter extends base {
   constructor() {
     super();
 
-    this.route("/", {
+    this.route("/kategori", {
       get: [{ "/": service.render.bind(service) }],
       post: [, { "/add-content": service.create }],
       put: [{ "/update-content/:id": service.update }],
