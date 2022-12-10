@@ -60,7 +60,7 @@
 
     <% list.forEach(item=> {%>
     <!--  -->
-    <%- include("row-content.html",{item}) %> <%})%> <% } else{ %>
+    <%- include("row-content.html",{item,msg:null}) %> <%})%> <% } else{ %>
     <!--  -->
     <% } %>
   </tbody>

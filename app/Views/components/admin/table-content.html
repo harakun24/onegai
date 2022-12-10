@@ -1,5 +1,5 @@
 <!-- @format -->
-
+<title>Admin manager</title>
 <table class="mt-4 table table-bordered border-primary datatable">
   <thead class="thead-dark">
     <tr>
@@ -14,7 +14,7 @@
 
     <% list.forEach(item=> {%>
     <!--  -->
-    <%- include("row-content.html",{item}) %> <%})%> <% } else{ %>
+    <%- include("row-content.html",{item,msg:null}) %> <%})%> <% } else{ %>
     <!--  -->
     <tr>
       <td colspan="3">data kosong</td>
@@ -25,3 +25,4 @@
 <div class="col-12 table-responsive">
   <%- include("pagination-content.html",{count,current}) %>
 </div>
+<%- include("../../partials/alert.swal.html",{msg}) %>

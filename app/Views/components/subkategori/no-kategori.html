@@ -1,11 +1,18 @@
 <!-- @format -->
 
 <script
-  hx-get="/dashboard/kategori/-content"
-  hx-header='{"mode":"tab"}'
+  hx-get="/dashboard/kategori"
+  hx-headers='{"mode":"tab"}'
   hx-target="#main"
+  hx-push-url="true"
   hx-trigger="load">
-  window.history.pushState("", "", "/dashboard/kategori");
-  alert("isi kategori dulu");
+  Swal.fire({
+    position: "top",
+    icon: "error",
+    title: "Kategori kosong",
+    text: "isi kategori terlebih dulu",
+    showConfirmButton: true,
+    // timer: 800,
+  });
   console.log("no kategori <%- e.message%>");
 </script>

@@ -31,24 +31,32 @@ export class AdminService extends base {
   //data management
   async create(req, res) {
     try {
-      if (req.body) await Admin.create(req.body);
+      if (req.body) {
+        await Admin.create(req.body);
+        req.session.message = "add";
+      }
     } catch (error) {
+      req.session.message = "err";
       console.log(error.message);
     }
     findAll(req, res);
   }
 
   async update(req, res) {
+    let msg = null;
     try {
       if (req.body) {
         await Admin.update(req.body, {
           where: { userID: req.params.id },
         });
+        msg = "update";
       }
     } catch (error) {
+      msg = "err";
       console.log(error.message);
     }
     res.render("components/admin/row-content.html", {
+      msg,
       item: (await Admin.findAll({ where: { userID: req.params.id } }))[0],
     });
   }
@@ -70,6 +78,8 @@ export class AdminService extends base {
     req.session.search = "";
     req.session.page = 0;
     req.session.limit = 5;
+    req.session.message = null;
+
     res.render("layouts/admin-man.html", {
       list: await Admin.findAll(),
     });
@@ -83,7 +93,7 @@ export class AdminService extends base {
       list: await Admin.findAll({
         where: {
           name: {
-            [Op.like]: `%${req.session.search}%`,
+            [Op.like]: `%${req.session.search || ""}%`,
           },
         },
         limit: req.session.limit,
@@ -110,6 +120,7 @@ export class AdminService extends base {
   async res_row(req, res) {
     res.render("components/admin/row-content.html", {
       item: (await Admin.findAll({ where: { userID: req.params.id } }))[0],
+      msg: null,
     });
   }
   async res_search(req, res) {
@@ -151,10 +162,12 @@ const findAll = async (req, res) => {
     offset: req.session.page * req.session.limit,
     order: [["userID", "DESC"]],
   });
-
+  const msg = req.session.message;
+  req.session.message = null;
   res.render("components/admin/table-content.html", {
     list: rawResult,
     current: req.session.page,
+    msg,
     count: Math.ceil(count / req.session.limit),
   });
 };

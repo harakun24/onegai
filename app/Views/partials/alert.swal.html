@@ -1,0 +1,23 @@
+<!-- @format -->
+<!-- <% if(msg){ %> -->
+<script>
+   <% if(msg=="add") {%>
+  Swal.fire({
+    position: "top",
+    icon: "success",
+    text: "data berhasil ditambah",
+    showConfirmButton: false,
+    timer: 800,
+  });
+   <% } %>
+   <% if(msg=="update") {%>
+  Swal.fire({
+    position: "top",
+    icon: "success",
+    text: "data berhasil diubah",
+    showConfirmButton: false,
+    timer: 800,
+  });
+   <% } %>
+</script>
+<!-- <% } %> -->

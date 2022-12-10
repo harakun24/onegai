@@ -1,3 +1,5 @@
+/** @format */
+
 import base from "./BaseService.js";
 import { Op } from "sequelize";
 
@@ -56,9 +58,9 @@ export class KategoriService extends base {
     req.session.search = "";
     req.session.page = 0;
     req.session.limit = 5;
-    res.render("layouts/kategori-man.html", {
-      // list: await Kategori.findAll(),
-    });
+    req.session.layout = "dashboard/kategori/-content";
+
+    res.render("layouts/kategori-man.html");
   }
   async res_table_show(req, res) {
     findAll(req, res);

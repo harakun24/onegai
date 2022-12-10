@@ -58,9 +58,7 @@
         <div class="col-md-6 col-sm-4 d-flex justify-content-end">
           <button
             class="btn btn-outline-danger"
-            hx-confirm="anda yakin ingin mengosongkan data?"
-            hx-delete="/dashboard/divisi/delete-content-all"
-            hx-target="#tbody">
+            onclick="rm_all('/dashboard/divisi/delete-content-all')">
             <i class="bi bi-trash"></i>
             <span class="d-none d-md-inline-block"> kosongkan</span>
           </button>

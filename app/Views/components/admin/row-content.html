@@ -22,11 +22,10 @@
       </button>
       <button
         class="btn mx-2 btn-danger"
-        hx-delete="/dashboard/delete-content/<%- item.userID %> "
-        hx-target="#tbody"
-        hx-confirm="yakin ingin menghapus <%- item.name %> ">
+        onclick="rm_row(this, '/dashboard/delete-content/<%- item.userID%>')">
         <i class="bi bi-trash"></i>
       </button>
     </div>
+    <%- include("../../partials/alert.swal.html",{msg}) %>
   </td>
 </tr>
